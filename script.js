@@ -116,4 +116,3 @@ function filterProducts() {
     let filtered = products.filter(p => p.name.toLowerCase().includes(query));
     renderHotDeals(filtered);
                                }
-

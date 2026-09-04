@@ -105,45 +105,68 @@
     </div>
 
     <script src="script.js?v=105"></script>
-    <div class="profile-modal" id="profileModal" style="display: none;">
+    <!-- Blinkit Style Login / OTP Modal -->
+<div class="profile-modal" id="profileModal" style="display: none;">
     <div class="profile-modal-content">
-        <div class="profile-header">
-            <h3 id="modalTitle">Login / Sign Up</h3>
-            <span class="close-profile" onclick="closeProfileModal()">✕</span>
-        </div>
-        <div class="profile-body">
+        <span class="close-profile" onclick="closeProfileModal()">✕</span>
+        
+        <!-- Step 1: Phone Number Input View -->
+        <div id="loginPhoneStep" class="auth-step">
+            <div class="auth-brand-logo">🛒</div> <!-- Yahan apna logo image bhi laga sakte hain -->
+            <h2 class="auth-title">Grovia Store</h2>
+            <p class="auth-subtitle">India's 1 Day Delivery App</p>
+            <p class="auth-heading">Log in or Sign up</p>
             
-            <div id="loginSection">
-                <p style="font-size: 13px; color: #666; margin-bottom: 12px;">Apna mobile number daal kar Grovia Store par login karein:</p>
-                <input type="tel" id="userPhoneInput" placeholder="Enter Mobile Number" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; outline: none; margin-bottom: 12px;">
-                <button onclick="handleLogin()" style="width: 100%; background: #6A1B9A; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer;">Continue</button>
+            <div class="phone-input-box">
+                <span class="country-code">+91</span>
+                <input type="tel" id="userPhoneInput" placeholder="Enter mobile number" maxlength="10">
             </div>
-
-            <div id="menuSection" style="display: none;">
-                <div class="profile-user-info" style="display: flex; align-items: center; gap: 12px; background: #f3ecfb; padding: 12px; border-radius: 12px; margin-bottom: 15px;">
-                    <div style="font-size: 24px; background: white; padding: 8px 12px; border-radius: 50%;">👤</div>
-                    <div>
-                        <h4 id="displayUserPhone" style="font-size: 15px; color: #333;">+91 XXXXX XXXXX</h4>
-                        <span style="font-size: 11px; color: #1E88E5; font-weight: 600;">Verified Customer</span>
-                    </div>
-                </div>
-                
-                <div class="profile-menu-list" style="display: flex; flex-direction: column; gap: 8px;">
-                    <div class="profile-menu-item" onclick="alert('Aapki koi order history nahi hai.')" style="display: flex; justify-content: space-between; padding: 12px; background: #f7f5fa; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;">
-                        <span>📦 Order History</span><span>›</span>
-                    </div>
-                    <div class="profile-menu-item" onclick="alert('Saved addresses section.')" style="display: flex; justify-content: space-between; padding: 12px; background: #f7f5fa; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;">
-                        <span>📍 Saved Addresses</span><span>›</span>
-                    </div>
-                    <div class="profile-menu-item" onclick="handleLogout()" style="display: flex; justify-content: space-between; padding: 12px; background: #fef2f2; color: #dc2626; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;">
-                        <span>🚪 Logout</span><span>›</span>
-                    </div>
-                </div>
-            </div>
-
+            
+            <button class="auth-continue-btn" onclick="sendOtp()">Continue</button>
+            <p class="auth-terms">By continuing, you agree to our <span>Terms of service</span> & <span>Privacy policy</span></p>
         </div>
+
+        <!-- Step 2: OTP Verification View -->
+        <div id="loginOtpStep" class="auth-step" style="display: none;">
+            <h3 class="auth-heading">Enter Verification Code</h3>
+            <p class="auth-subtitle">We've sent a 4-digit code to <span id="displaySentPhone">+91 XXXXX XXXXX</span></p>
+            
+            <div class="otp-inputs">
+                <input type="text" maxlength="1" class="otp-box" />
+                <input type="text" maxlength="1" class="otp-box" />
+                <input type="text" maxlength="1" class="otp-box" />
+                <input type="text" maxlength="1" class="otp-box" />
+            </div>
+            
+            <button class="auth-continue-btn" onclick="verifyOtp()">Verify & Proceed</button>
+            <p class="auth-terms" style="cursor: pointer; color: #6A1B9A;" onclick="backToPhoneEdit()">← Edit Mobile Number</p>
+        </div>
+
+        <!-- Step 3: Account Menu View (After Successful Login) -->
+        <div id="menuSection" class="auth-step" style="display: none;">
+            <div class="profile-user-info">
+                <div class="user-avatar">👤</div>
+                <div>
+                    <h4 id="displayUserPhone">+91 XXXXX XXXXX</h4>
+                    <span class="verified-badge">Verified Customer</span>
+                </div>
+            </div>
+            
+            <div class="profile-menu-list">
+                <div class="profile-menu-item" onclick="alert('Aapki koi order history nahi hai.')">
+                    <span>📦 Order History</span><span>›</span>
+                </div>
+                <div class="profile-menu-item" onclick="alert('Saved addresses section.')">
+                    <span>📍 Saved Addresses</span><span>›</span>
+                </div>
+                <div class="profile-menu-item logout-item" onclick="handleLogout()">
+                    <span>🚪 Logout</span><span>›</span>
+                </div>
+            </div>
+        </div>
+
     </div>
-    </div>
+</div>
 </body>
     </html>
     

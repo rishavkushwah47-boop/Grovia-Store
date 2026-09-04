@@ -1,4 +1,3 @@
-// --- Product Database (No Fruits, Veg, Frozen, or Cold drinks) ---
 let products = [
     { id: 1, name: "Whole Farm Grocery Cashew", weight: "200 g", price: 213, oldPrice: 299, discount: "28% OFF", emoji: "🥜", salesCount: 45 },
     { id: 2, name: "Whole Farm Grocery Makhana", weight: "100 g", price: 140, oldPrice: 210, discount: "33% OFF", emoji: "🍿", salesCount: 82 },
@@ -11,14 +10,12 @@ let products = [
 let cart = {};
 let isLoggedIn = false;
 
-// --- Initialize Page ---
 document.addEventListener("DOMContentLoaded", () => {
     renderHotDeals(products);
     renderTrending();
     checkLoginState();
 });
 
-// --- Render Hot Deals ---
 function renderHotDeals(items) {
     const container = document.getElementById("hotDealsContainer");
     if (!container) return;
@@ -46,7 +43,6 @@ function renderHotDeals(items) {
     });
 }
 
-// --- Render Trending Section ---
 function renderTrending() {
     const container = document.getElementById("trendingContainer");
     if (!container) return;
@@ -75,8 +71,14 @@ function renderTrending() {
     });
 }
 
-// --- Add to Cart ---
+// --- Mandatory Login Check for Cart ---
 function addToCart(productId) {
+    if (!isLoggedIn) {
+        alert("Pehle Sign up / Login karein!");
+        openProfileModal();
+        return;
+    }
+
     let product = products.find(p => p.id === productId);
     if (product) {
         product.salesCount += 15; 
@@ -90,7 +92,6 @@ function addToCart(productId) {
     }
 }
 
-// --- Update Cart Floating Bar ---
 function updateCartUI() {
     let totalItems = 0;
     let totalPrice = 0;
@@ -103,7 +104,7 @@ function updateCartUI() {
     const cartBar = document.getElementById("cartBar");
     if (!cartBar) return;
 
-    if (totalItems > 0) {
+    if (totalItems > 0 && isLoggedIn) {
         cartBar.style.display = "flex";
         document.getElementById("cartCount").innerText = `${totalItems} item${totalItems > 1 ? 's' : ''}`;
         document.getElementById("cartTotal").innerText = `₹${totalPrice}`;
@@ -112,8 +113,11 @@ function updateCartUI() {
     }
 }
 
-// --- Cart Modal Functions ---
 function openCartModal() {
+    if (!isLoggedIn) {
+        openProfileModal();
+        return;
+    }
     const modal = document.getElementById("cartModal");
     const listContainer = document.getElementById("cartItemsList");
     if (!modal || !listContainer) return;
@@ -142,8 +146,7 @@ function openCartModal() {
 }
 
 function closeCartModal() {
-    const modal = document.getElementById("cartModal");
-    if (modal) modal.style.display = "none";
+    document.getElementById("cartModal").style.display = "none";
 }
 
 function checkoutOrder() {
@@ -153,16 +156,13 @@ function checkoutOrder() {
     closeCartModal();
 }
 
-// --- Search Filter ---
 function filterProducts() {
-    let searchInput = document.getElementById("searchInput");
-    if (!searchInput) return;
-    let query = searchInput.value.toLowerCase();
+    let query = document.getElementById("searchInput").value.toLowerCase();
     let filtered = products.filter(p => p.name.toLowerCase().includes(query));
     renderHotDeals(filtered);
 }
 
-// --- Profile & Authentication Functions ---
+// --- Auth & Profile Logic ---
 function openProfileModal() {
     let modal = document.getElementById("profileModal");
     if (modal) {
@@ -172,73 +172,10 @@ function openProfileModal() {
 }
 
 function closeProfileModal() {
-    let modal = document.getElementById("profileModal");
-    if (modal) modal.style.display = "none";
-}
-
-function handleLogin() {
-    let phoneInput = document.getElementById("userPhoneInput");
-    if (!phoneInput) return;
-    
-    let phone = phoneInput.value;
-    if (phone.length < 10) {
-        alert("Kripya sahi 10 digit ka mobile number dalein!");
+    if (!isLoggedIn) {
+        alert("Saman kharidne ke liye login karna anivarya (mandatory) hai!");
         return;
     }
-    
-    isLoggedIn = true;
-    localStorage.setItem("groviaUser", phone);
-    updateProfileView();
-}
-
-function handleLogout() {
-    isLoggedIn = false;
-    localStorage.removeItem("groviaUser");
-    let phoneInput = document.getElementById("userPhoneInput");
-    if (phoneInput) phoneInput.value = "";
-    updateProfileView();
-}
-
-function checkLoginState() {
-    let savedPhone = localStorage.getItem("groviaUser");
-    if (savedPhone) {
-        isLoggedIn = true;
-    }
-}
-
-function updateProfileView() {
-    checkLoginState();
-
-    let loginSec = document.getElementById("loginSection");
-    let menuSec = document.getElementById("menuSection");
-    let modalTitle = document.getElementById("modalTitle");
-
-    if (!loginSec || !menuSec || !modalTitle) return;
-
-    if (isLoggedIn) {
-        loginSec.style.display = "none";
-        menuSec.style.display = "block";
-        modalTitle.innerText = "My Account";
-        let displayPhone = document.getElementById("displayUserPhone");
-        if (displayPhone) {
-            displayPhone.innerText = `+91 ${localStorage.getItem("groviaUser")}`;
-        }
-    } else {
-        loginSec.style.display = "block";
-        menuSec.style.display = "none";
-        modalTitle.innerText = "Login / Sign Up";
-    }
-}
-// --- Blinkit Style OTP & Auth Logic ---
-function openProfileModal() {
-    let modal = document.getElementById("profileModal");
-    if (modal) {
-        modal.style.display = "flex";
-        updateProfileView();
-    }
-}
-
-function closeProfileModal() {
     let modal = document.getElementById("profileModal");
     if (modal) modal.style.display = "none";
 }
@@ -253,7 +190,6 @@ function sendOtp() {
         return;
     }
 
-    // Switch to OTP step
     document.getElementById("loginPhoneStep").style.display = "none";
     document.getElementById("loginOtpStep").style.display = "block";
     document.getElementById("displaySentPhone").innerText = `+91 ${phone}`;
@@ -261,7 +197,6 @@ function sendOtp() {
 }
 
 function verifyOtp() {
-    // Demo verification (Any 4 digits works)
     let phone = localStorage.getItem("tempPhone") || "9876543210";
     isLoggedIn = true;
     localStorage.setItem("groviaUser", phone);
@@ -280,17 +215,25 @@ function handleLogout() {
     let phoneInput = document.getElementById("userPhoneInput");
     if (phoneInput) phoneInput.value = "";
     updateProfileView();
+    openProfileModal(); // Force login again on logout
 }
 
-function updateProfileView() {
+function checkLoginState() {
     let savedPhone = localStorage.getItem("groviaUser");
     if (savedPhone) {
         isLoggedIn = true;
+    } else {
+        isLoggedIn = false;
+        // Force open login popup on first visit if not logged in
+        openProfileModal();
     }
+}
 
+function updateProfileView() {
     let phoneStep = document.getElementById("loginPhoneStep");
     let otpStep = document.getElementById("loginOtpStep");
     let menuSec = document.getElementById("menuSection");
+    let closeBtn = document.getElementById("closeModalBtn");
 
     if (!phoneStep || !otpStep || !menuSec) return;
 
@@ -298,13 +241,24 @@ function updateProfileView() {
         phoneStep.style.display = "none";
         otpStep.style.display = "none";
         menuSec.style.display = "block";
+        if (closeBtn) closeBtn.style.display = "block"; // Allow closing only after login
+        
         let displayPhone = document.getElementById("displayUserPhone");
         if (displayPhone) {
             displayPhone.innerText = `+91 ${localStorage.getItem("groviaUser")}`;
+        }
+        
+        let modal = document.getElementById("profileModal");
+        if (modal && !document.querySelector('.profile-menu-item')) {
+            // keep open if called explicitly
+        } else if (modal && modal.style.display === "flex" && menuSec.style.display === "block") {
+            // Already logged in view
         }
     } else {
         phoneStep.style.display = "block";
         otpStep.style.display = "none";
         menuSec.style.display = "none";
+        if (closeBtn) closeBtn.style.display = "none"; // Hide close button until logged in
     }
-}
+            }
+                                            

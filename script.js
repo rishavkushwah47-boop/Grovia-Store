@@ -229,3 +229,82 @@ function updateProfileView() {
         modalTitle.innerText = "Login / Sign Up";
     }
 }
+// --- Blinkit Style OTP & Auth Logic ---
+function openProfileModal() {
+    let modal = document.getElementById("profileModal");
+    if (modal) {
+        modal.style.display = "flex";
+        updateProfileView();
+    }
+}
+
+function closeProfileModal() {
+    let modal = document.getElementById("profileModal");
+    if (modal) modal.style.display = "none";
+}
+
+function sendOtp() {
+    let phoneInput = document.getElementById("userPhoneInput");
+    if (!phoneInput) return;
+
+    let phone = phoneInput.value;
+    if (phone.length < 10) {
+        alert("Kripya sahi 10 digit ka mobile number dalein!");
+        return;
+    }
+
+    // Switch to OTP step
+    document.getElementById("loginPhoneStep").style.display = "none";
+    document.getElementById("loginOtpStep").style.display = "block";
+    document.getElementById("displaySentPhone").innerText = `+91 ${phone}`;
+    localStorage.setItem("tempPhone", phone);
+}
+
+function verifyOtp() {
+    // Demo verification (Any 4 digits works)
+    let phone = localStorage.getItem("tempPhone") || "9876543210";
+    isLoggedIn = true;
+    localStorage.setItem("groviaUser", phone);
+    updateProfileView();
+}
+
+function backToPhoneEdit() {
+    document.getElementById("loginOtpStep").style.display = "none";
+    document.getElementById("loginPhoneStep").style.display = "block";
+}
+
+function handleLogout() {
+    isLoggedIn = false;
+    localStorage.removeItem("groviaUser");
+    localStorage.removeItem("tempPhone");
+    let phoneInput = document.getElementById("userPhoneInput");
+    if (phoneInput) phoneInput.value = "";
+    updateProfileView();
+}
+
+function updateProfileView() {
+    let savedPhone = localStorage.getItem("groviaUser");
+    if (savedPhone) {
+        isLoggedIn = true;
+    }
+
+    let phoneStep = document.getElementById("loginPhoneStep");
+    let otpStep = document.getElementById("loginOtpStep");
+    let menuSec = document.getElementById("menuSection");
+
+    if (!phoneStep || !otpStep || !menuSec) return;
+
+    if (isLoggedIn) {
+        phoneStep.style.display = "none";
+        otpStep.style.display = "none";
+        menuSec.style.display = "block";
+        let displayPhone = document.getElementById("displayUserPhone");
+        if (displayPhone) {
+            displayPhone.innerText = `+91 ${localStorage.getItem("groviaUser")}`;
+        }
+    } else {
+        phoneStep.style.display = "block";
+        otpStep.style.display = "none";
+        menuSec.style.display = "none";
+    }
+}

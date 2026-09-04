@@ -1,3 +1,19 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyAkqa81mtjgr9Cz3jTOB0c9PIZzs5R6OwE",
+  authDomain: "grovia-store-19d42.firebaseapp.com",
+  projectId: "grovia-store-19d42",
+  storageBucket: "grovia-store-19d42.firebasestorage.app",
+  messagingSenderId: "866549682795",
+  appId: "1:866549682795:web:c2b9cdf4b3f4140ec7572e",
+  measurementId: "G-TT7L0JPDPQ"
+};
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+let windowRecaptchaVerifier = null;
+let confirmationResultGlobal = null;
+
+// --- Product Database ---
 let products = [
     { id: 1, name: "Whole Farm Grocery Cashew", weight: "200 g", price: 213, oldPrice: 299, discount: "28% OFF", emoji: "🥜", salesCount: 45 },
     { id: 2, name: "Whole Farm Grocery Makhana", weight: "100 g", price: 140, oldPrice: 210, discount: "33% OFF", emoji: "🍿", salesCount: 82 },
@@ -14,6 +30,15 @@ document.addEventListener("DOMContentLoaded", () => {
     renderHotDeals(products);
     renderTrending();
     checkLoginState();
+    
+    // Firebase Invisible reCAPTCHA Setup
+    try {
+        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+            'size': 'invisible'
+        });
+    } catch (e) {
+        console.log("reCAPTCHA setup note:", e);
+    }
 });
 
 function renderHotDeals(items) {
@@ -71,7 +96,6 @@ function renderTrending() {
     });
 }
 
-// --- Mandatory Login Check for Cart ---
 function addToCart(productId) {
     if (!isLoggedIn) {
         alert("Pehle Sign up / Login karein!");
@@ -162,7 +186,7 @@ function filterProducts() {
     renderHotDeals(filtered);
 }
 
-// --- Auth & Profile Logic ---
+// --- Firebase Real SMS OTP Auth Logic ---
 function openProfileModal() {
     let modal = document.getElementById("profileModal");
     if (modal) {
@@ -173,7 +197,7 @@ function openProfileModal() {
 
 function closeProfileModal() {
     if (!isLoggedIn) {
-        alert("Saman kharidne ke liye login karna anivarya (mandatory) hai!");
+        alert("Saman kharidne ke liye login karna anivarya hai!");
         return;
     }
     let modal = document.getElementById("profileModal");
@@ -190,17 +214,45 @@ function sendOtp() {
         return;
     }
 
-    document.getElementById("loginPhoneStep").style.display = "none";
-    document.getElementById("loginOtpStep").style.display = "block";
-    document.getElementById("displaySentPhone").innerText = `+91 ${phone}`;
-    localStorage.setItem("tempPhone", phone);
+    let fullPhoneNumber = "+91" + phone;
+    let appVerifier = window.recaptchaVerifier;
+
+    // Firebase actual SMS bhejega
+    firebase.auth().signInWithPhoneNumber(fullPhoneNumber, appVerifier)
+        .then(function (confirmationResult) {
+            confirmationResultGlobal = confirmationResult;
+            document.getElementById("loginPhoneStep").style.display = "none";
+            document.getElementById("loginOtpStep").style.display = "block";
+            document.getElementById("displaySentPhone").innerText = fullPhoneNumber;
+            alert("Real SMS OTP aapke number par bhej diya gaya hai!");
+        })
+        .catch(function (error) {
+            console.error("SMS Error:", error);
+            alert("OTP bhejne mein error aaya: " + error.message);
+        });
 }
 
 function verifyOtp() {
-    let phone = localStorage.getItem("tempPhone") || "9876543210";
-    isLoggedIn = true;
-    localStorage.setItem("groviaUser", phone);
-    updateProfileView();
+    let otpInputs = document.querySelectorAll(".otp-box");
+    let otpCode = "";
+    otpInputs.forEach(input => otpCode += input.value);
+
+    if (otpCode.length < 4) {
+        alert("Kripya poora OTP dalein!");
+        return;
+    }
+
+    confirmationResultGlobal.confirm(otpCode).then(function (result) {
+        let user = result.user;
+        isLoggedIn = true;
+        localStorage.setItem("groviaUser", user.phoneNumber);
+        
+        alert("Login Successful!");
+        closeProfileModal();
+        updateProfileView();
+    }).catch(function (error) {
+        alert("Galat OTP! Kripya dobara check karein.");
+    });
 }
 
 function backToPhoneEdit() {
@@ -209,13 +261,14 @@ function backToPhoneEdit() {
 }
 
 function handleLogout() {
-    isLoggedIn = false;
-    localStorage.removeItem("groviaUser");
-    localStorage.removeItem("tempPhone");
-    let phoneInput = document.getElementById("userPhoneInput");
-    if (phoneInput) phoneInput.value = "";
-    updateProfileView();
-    openProfileModal(); // Force login again on logout
+    firebase.auth().signOut().then(() => {
+        isLoggedIn = false;
+        localStorage.removeItem("groviaUser");
+        let phoneInput = document.getElementById("userPhoneInput");
+        if (phoneInput) phoneInput.value = "";
+        closeProfileModal();
+        checkLoginState();
+    });
 }
 
 function checkLoginState() {
@@ -224,8 +277,7 @@ function checkLoginState() {
         isLoggedIn = true;
     } else {
         isLoggedIn = false;
-        // Force open login popup on first visit if not logged in
-        openProfileModal();
+        openProfileModal(); // Pehli baar aane par mandatory login popup
     }
 }
 
@@ -241,24 +293,16 @@ function updateProfileView() {
         phoneStep.style.display = "none";
         otpStep.style.display = "none";
         menuSec.style.display = "block";
-        if (closeBtn) closeBtn.style.display = "block"; // Allow closing only after login
+        if (closeBtn) closeBtn.style.display = "block";
         
         let displayPhone = document.getElementById("displayUserPhone");
         if (displayPhone) {
-            displayPhone.innerText = `+91 ${localStorage.getItem("groviaUser")}`;
-        }
-        
-        let modal = document.getElementById("profileModal");
-        if (modal && !document.querySelector('.profile-menu-item')) {
-            // keep open if called explicitly
-        } else if (modal && modal.style.display === "flex" && menuSec.style.display === "block") {
-            // Already logged in view
+            displayPhone.innerText = localStorage.getItem("groviaUser");
         }
     } else {
         phoneStep.style.display = "block";
         otpStep.style.display = "none";
         menuSec.style.display = "none";
-        if (closeBtn) closeBtn.style.display = "none"; // Hide close button until logged in
+        if (closeBtn) closeBtn.style.display = "none";
     }
-            }
-                                            
+}

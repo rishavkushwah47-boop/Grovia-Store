@@ -105,6 +105,45 @@
     </div>
 
     <script src="script.js?v=105"></script>
+    <div class="profile-modal" id="profileModal" style="display: none;">
+    <div class="profile-modal-content">
+        <div class="profile-header">
+            <h3 id="modalTitle">Login / Sign Up</h3>
+            <span class="close-profile" onclick="closeProfileModal()">✕</span>
+        </div>
+        <div class="profile-body">
+            
+            <div id="loginSection">
+                <p style="font-size: 13px; color: #666; margin-bottom: 12px;">Apna mobile number daal kar Grovia Store par login karein:</p>
+                <input type="tel" id="userPhoneInput" placeholder="Enter Mobile Number" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 14px; outline: none; margin-bottom: 12px;">
+                <button onclick="handleLogin()" style="width: 100%; background: #6A1B9A; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 15px; cursor: pointer;">Continue</button>
+            </div>
+
+            <div id="menuSection" style="display: none;">
+                <div class="profile-user-info" style="display: flex; align-items: center; gap: 12px; background: #f3ecfb; padding: 12px; border-radius: 12px; margin-bottom: 15px;">
+                    <div style="font-size: 24px; background: white; padding: 8px 12px; border-radius: 50%;">👤</div>
+                    <div>
+                        <h4 id="displayUserPhone" style="font-size: 15px; color: #333;">+91 XXXXX XXXXX</h4>
+                        <span style="font-size: 11px; color: #1E88E5; font-weight: 600;">Verified Customer</span>
+                    </div>
+                </div>
+                
+                <div class="profile-menu-list" style="display: flex; flex-direction: column; gap: 8px;">
+                    <div class="profile-menu-item" onclick="alert('Aapki koi order history nahi hai.')" style="display: flex; justify-content: space-between; padding: 12px; background: #f7f5fa; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;">
+                        <span>📦 Order History</span><span>›</span>
+                    </div>
+                    <div class="profile-menu-item" onclick="alert('Saved addresses section.')" style="display: flex; justify-content: space-between; padding: 12px; background: #f7f5fa; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;">
+                        <span>📍 Saved Addresses</span><span>›</span>
+                    </div>
+                    <div class="profile-menu-item" onclick="handleLogout()" style="display: flex; justify-content: space-between; padding: 12px; background: #fef2f2; color: #dc2626; border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;">
+                        <span>🚪 Logout</span><span>›</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    </div>
 </body>
     </html>
     

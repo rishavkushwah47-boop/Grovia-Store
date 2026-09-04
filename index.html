@@ -4,18 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Grovia Store - Quality Home Needs</title>
-    <link rel="stylesheet" href="style.css?v=105">
+    <link rel="stylesheet" href="style.css?v=200">
 </head>
 <body>
 
-    <!-- Top Header with Grovia Store Branding -->
+    <!-- Top Header -->
     <header class="header">
-    <div class="logo-area">
-    <img src="file_00000000c61c81f5879dec2795320c60.png" alt="Grovia Logo" style="height: 35px; width: auto; object-fit: contain;">
-    <span class="store-tagline">Everything Your Home Needs</span>
+        <div class="logo-area">
+            <img src="file_00000000c61c81f5879dec2795320c60.png" alt="Grovia Logo" class="store-logo-img">
+            <span class="store-tagline">Everything Your Home Needs</span>
         </div>
-        <div class="profile-icon-img" onclick="openProfileModal()" style="width: 36px; height: 36px; border-radius: 50%; overflow: hidden; background: #f3ecfb; display: flex; align-items: center; justifyContent: center;">
-    <img src="user.png" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
+        <div class="profile-icon-img" onclick="openProfileModal()">
+            <img src="user.png" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
     </header>
 
@@ -60,19 +60,6 @@
             </div>
         </section>
 
-        <!-- Snacks -->
-        <section class="section">
-            <div class="section-header">
-                <h2>Snacks & Munchies</h2>
-            </div>
-            <div class="category-grid">
-                <div class="cat-card"><div class="cat-img">🥔</div><span>Chips & Namkeen</span></div>
-                <div class="cat-card"><div class="cat-img">🍫</div><span>Sweets & Chocolates</span></div>
-                <div class="cat-card"><div class="cat-img">☕</div><span>Tea & Coffee</span></div>
-                <div class="cat-card"><div class="cat-img">🍜</div><span>Instant Food</span></div>
-            </div>
-        </section>
-
     </main>
 
     <!-- Floating Cart Bar -->
@@ -84,16 +71,79 @@
         <button class="view-cart-btn">View Cart 🛒</button>
     </div>
 
-    <!-- Cart Modal / Drawer Popup -->
+    <!-- Blinkit Style Mandatory Login / OTP Modal -->
+    <div class="profile-modal" id="profileModal" style="display: flex;">
+        <div class="profile-modal-content">
+            <span class="close-profile" id="closeModalBtn" onclick="closeProfileModal()" style="display: none;">✕</span>
+            
+            <!-- Step 1: Phone Number Input -->
+            <div id="loginPhoneStep" class="auth-step">
+                <div class="auth-brand-logo-container">
+                    <img src="file_00000000c61c81f5879dec2795320c60.png" alt="Grovia" class="auth-custom-logo">
+                </div>
+                <h2 class="auth-title">Grovia Store</h2>
+                <p class="auth-subtitle">India's 1 Day Delivery App</p>
+                <p class="auth-heading">Log in or Sign up to continue</p>
+                
+                <div class="phone-input-box">
+                    <span class="country-code">+91</span>
+                    <input type="tel" id="userPhoneInput" placeholder="Enter mobile number" maxlength="10">
+                </div>
+                
+                <button class="auth-continue-btn" onclick="sendOtp()">Continue</button>
+                <p class="auth-terms">By continuing, you agree to our <span>Terms of service</span> & <span>Privacy policy</span></p>
+            </div>
+
+            <!-- Step 2: OTP Verification -->
+            <div id="loginOtpStep" class="auth-step" style="display: none;">
+                <h3 class="auth-heading">Enter Verification Code</h3>
+                <p class="auth-subtitle">We've sent a 4-digit code to <span id="displaySentPhone">+91 XXXXX XXXXX</span></p>
+                
+                <div class="otp-inputs">
+                    <input type="text" maxlength="1" class="otp-box" />
+                    <input type="text" maxlength="1" class="otp-box" />
+                    <input type="text" maxlength="1" class="otp-box" />
+                    <input type="text" maxlength="1" class="otp-box" />
+                </div>
+                
+                <button class="auth-continue-btn" onclick="verifyOtp()">Verify & Proceed</button>
+                <p class="auth-terms" style="cursor: pointer; color: #6A1B9A; margin-top: 10px;" onclick="backToPhoneEdit()">← Edit Mobile Number</p>
+            </div>
+
+            <!-- Step 3: Account Menu (After Login) -->
+            <div id="menuSection" class="auth-step" style="display: none;">
+                <div class="profile-user-info">
+                    <div class="user-avatar">👤</div>
+                    <div>
+                        <h4 id="displayUserPhone">+91 XXXXX XXXXX</h4>
+                        <span class="verified-badge">Verified Customer</span>
+                    </div>
+                </div>
+                
+                <div class="profile-menu-list">
+                    <div class="profile-menu-item" onclick="alert('Aapki koi order history nahi hai.')">
+                        <span>📦 Order History</span><span>›</span>
+                    </div>
+                    <div class="profile-menu-item" onclick="alert('Saved addresses section.')">
+                        <span>📍 Saved Addresses</span><span>›</span>
+                    </div>
+                    <div class="profile-menu-item logout-item" onclick="handleLogout()">
+                        <span>🚪 Logout</span><span>›</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Cart Modal -->
     <div class="cart-modal" id="cartModal" style="display: none;">
-        <div class="cart-modal-content">
+        <div class="cart-modal-content" style="max-height: 80vh;">
             <div class="modal-header">
                 <h3>Your Cart</h3>
                 <span class="close-btn" onclick="closeCartModal()">✕</span>
             </div>
-            <div class="cart-items-list" id="cartItemsList">
-                <!-- Cart items will load here -->
-            </div>
+            <div class="cart-items-list" id="cartItemsList"></div>
             <div class="modal-footer">
                 <div class="modal-total">
                     <span>Total Amount:</span>
@@ -104,69 +154,6 @@
         </div>
     </div>
 
-    <script src="script.js?v=105"></script>
-    <!-- Blinkit Style Login / OTP Modal -->
-<div class="profile-modal" id="profileModal" style="display: none;">
-    <div class="profile-modal-content">
-        <span class="close-profile" onclick="closeProfileModal()">✕</span>
-        
-        <!-- Step 1: Phone Number Input View -->
-        <div id="loginPhoneStep" class="auth-step">
-            <div class="auth-brand-logo">🛒</div> <!-- Yahan apna logo image bhi laga sakte hain -->
-            <h2 class="auth-title">Grovia Store</h2>
-            <p class="auth-subtitle">India's 1 Day Delivery App</p>
-            <p class="auth-heading">Log in or Sign up</p>
-            
-            <div class="phone-input-box">
-                <span class="country-code">+91</span>
-                <input type="tel" id="userPhoneInput" placeholder="Enter mobile number" maxlength="10">
-            </div>
-            
-            <button class="auth-continue-btn" onclick="sendOtp()">Continue</button>
-            <p class="auth-terms">By continuing, you agree to our <span>Terms of service</span> & <span>Privacy policy</span></p>
-        </div>
-
-        <!-- Step 2: OTP Verification View -->
-        <div id="loginOtpStep" class="auth-step" style="display: none;">
-            <h3 class="auth-heading">Enter Verification Code</h3>
-            <p class="auth-subtitle">We've sent a 4-digit code to <span id="displaySentPhone">+91 XXXXX XXXXX</span></p>
-            
-            <div class="otp-inputs">
-                <input type="text" maxlength="1" class="otp-box" />
-                <input type="text" maxlength="1" class="otp-box" />
-                <input type="text" maxlength="1" class="otp-box" />
-                <input type="text" maxlength="1" class="otp-box" />
-            </div>
-            
-            <button class="auth-continue-btn" onclick="verifyOtp()">Verify & Proceed</button>
-            <p class="auth-terms" style="cursor: pointer; color: #6A1B9A;" onclick="backToPhoneEdit()">← Edit Mobile Number</p>
-        </div>
-
-        <!-- Step 3: Account Menu View (After Successful Login) -->
-        <div id="menuSection" class="auth-step" style="display: none;">
-            <div class="profile-user-info">
-                <div class="user-avatar">👤</div>
-                <div>
-                    <h4 id="displayUserPhone">+91 XXXXX XXXXX</h4>
-                    <span class="verified-badge">Verified Customer</span>
-                </div>
-            </div>
-            
-            <div class="profile-menu-list">
-                <div class="profile-menu-item" onclick="alert('Aapki koi order history nahi hai.')">
-                    <span>📦 Order History</span><span>›</span>
-                </div>
-                <div class="profile-menu-item" onclick="alert('Saved addresses section.')">
-                    <span>📍 Saved Addresses</span><span>›</span>
-                </div>
-                <div class="profile-menu-item logout-item" onclick="handleLogout()">
-                    <span>🚪 Logout</span><span>›</span>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
+    <script src="script.js?v=200"></script>
 </body>
     </html>
-    

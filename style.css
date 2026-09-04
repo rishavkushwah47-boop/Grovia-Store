@@ -1,1 +1,218 @@
+/* =========================================
+   Basic Reset & Premium Font Setup
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+    /* Ek dum light purple/greyish background taki cards highlight hon */
+    background-color: #f8f6fa; 
+    color: #333;
+}
+
+/* =========================================
+   Navbar (Top Header) - Glassmorphism touch
+   ========================================= */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 40px;
+    box-shadow: 0 4px 15px rgba(74, 20, 140, 0.08); /* Light purple shadow */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    font-size: 32px;
+    font-weight: 900;
+    /* Dark Purple Brand Color */
+    color: #4A148C; 
+    letter-spacing: -1px;
+    cursor: pointer;
+}
+
+.delivery-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.time {
+    font-weight: 800;
+    font-size: 15px;
+    color: #4A148C; /* Theme match */
+}
+
+.location {
+    font-size: 13px;
+    color: #666;
+    margin-top: 3px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+/* Search Bar with smooth focus effect */
+.search-bar input {
+    width: 480px;
+    padding: 14px 20px;
+    border: 1.5px solid #e1dced;
+    border-radius: 12px;
+    background-color: #fcfbfe;
+    outline: none;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+    border-color: #7B1FA2;
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(123, 31, 162, 0.1);
+}
+
+/* Cart Button */
+.cart-btn button {
+    background-color: #6A1B9A; /* Rich Purple */
+    color: #fff;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+    transition: transform 0.2s, background-color 0.2s;
+    box-shadow: 0 4px 10px rgba(106, 27, 154, 0.3);
+}
+
+.cart-btn button:hover {
+    background-color: #4A148C; /* Darker Purple on hover */
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   Main Content Area
+   ========================================= */
+main {
+    padding: 30px 40px;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+/* Promotional Banner - Premium Gradient */
+.banner {
+    background: linear-gradient(135deg, #4A148C 0%, #7B1FA2 100%);
+    padding: 45px;
+    border-radius: 20px;
+    text-align: center;
+    margin-bottom: 40px;
+    color: #fff;
+    box-shadow: 0 10px 25px rgba(74, 20, 140, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+.banner h2 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+/* =========================================
+   Product Grid & Cards
+   ========================================= */
+.products-section h3 {
+    margin-bottom: 25px;
+    font-size: 24px;
+    color: #222;
+    font-weight: 800;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+/* Premium Card Design with Hover Effect */
+.card {
+    background-color: #fff;
+    padding: 18px;
+    border-radius: 16px;
+    border: 1px solid #f0edf5;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 24px rgba(74, 20, 140, 0.12);
+    border-color: #e1dced;
+}
+
+.img-placeholder {
+    height: 150px;
+    background-color: #f4f2f9; /* Light purple tint */
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8a7b9e;
+    font-weight: 500;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+.card h4 {
+    font-size: 15px;
+    color: #222;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.card p {
+    font-size: 13px;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.price-add {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.price-add span {
+    font-weight: 800;
+    font-size: 16px;
+    color: #111;
+}
+
+/* Custom ADD Button - Purple Theme */
+.add-btn {
+    border: 1.5px solid #6A1B9A;
+    background-color: #fbf8ff;
+    color: #6A1B9A;
+    padding: 8px 22px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 13px;
+    transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+    background-color: #6A1B9A;
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(106, 27, 154, 0.2);
+  }
 

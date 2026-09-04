@@ -1,2 +1,2 @@
-# Grovia Store
+# Grovia
 Everything Your Home Needs.

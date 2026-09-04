@@ -1,3 +1,4 @@
+// --- Product Database (No Fruits, Veg, Frozen, or Cold drinks) ---
 let products = [
     { id: 1, name: "Whole Farm Grocery Cashew", weight: "200 g", price: 213, oldPrice: 299, discount: "28% OFF", emoji: "🥜", salesCount: 45 },
     { id: 2, name: "Whole Farm Grocery Makhana", weight: "100 g", price: 140, oldPrice: 210, discount: "33% OFF", emoji: "🍿", salesCount: 82 },
@@ -8,14 +9,19 @@ let products = [
 ];
 
 let cart = {};
+let isLoggedIn = false;
 
+// --- Initialize Page ---
 document.addEventListener("DOMContentLoaded", () => {
     renderHotDeals(products);
     renderTrending();
+    checkLoginState();
 });
 
+// --- Render Hot Deals ---
 function renderHotDeals(items) {
     const container = document.getElementById("hotDealsContainer");
+    if (!container) return;
     container.innerHTML = "";
 
     items.forEach(product => {
@@ -40,8 +46,10 @@ function renderHotDeals(items) {
     });
 }
 
+// --- Render Trending Section ---
 function renderTrending() {
     const container = document.getElementById("trendingContainer");
+    if (!container) return;
     container.innerHTML = "";
 
     let sortedProducts = [...products].sort((a, b) => b.salesCount - a.salesCount);
@@ -67,6 +75,7 @@ function renderTrending() {
     });
 }
 
+// --- Add to Cart ---
 function addToCart(productId) {
     let product = products.find(p => p.id === productId);
     if (product) {
@@ -81,6 +90,7 @@ function addToCart(productId) {
     }
 }
 
+// --- Update Cart Floating Bar ---
 function updateCartUI() {
     let totalItems = 0;
     let totalPrice = 0;
@@ -91,6 +101,8 @@ function updateCartUI() {
     }
 
     const cartBar = document.getElementById("cartBar");
+    if (!cartBar) return;
+
     if (totalItems > 0) {
         cartBar.style.display = "flex";
         document.getElementById("cartCount").innerText = `${totalItems} item${totalItems > 1 ? 's' : ''}`;
@@ -100,12 +112,13 @@ function updateCartUI() {
     }
 }
 
-// Cart Modal Functions (View Cart popup)
+// --- Cart Modal Functions ---
 function openCartModal() {
     const modal = document.getElementById("cartModal");
     const listContainer = document.getElementById("cartItemsList");
-    listContainer.innerHTML = "";
+    if (!modal || !listContainer) return;
 
+    listContainer.innerHTML = "";
     let totalPrice = 0;
 
     for (let id in cart) {
@@ -129,7 +142,8 @@ function openCartModal() {
 }
 
 function closeCartModal() {
-    document.getElementById("cartModal").style.display = "none";
+    const modal = document.getElementById("cartModal");
+    if (modal) modal.style.display = "none";
 }
 
 function checkoutOrder() {
@@ -139,30 +153,39 @@ function checkoutOrder() {
     closeCartModal();
 }
 
+// --- Search Filter ---
 function filterProducts() {
-    let query = document.getElementById("searchInput").value.toLowerCase();
+    let searchInput = document.getElementById("searchInput");
+    if (!searchInput) return;
+    let query = searchInput.value.toLowerCase();
     let filtered = products.filter(p => p.name.toLowerCase().includes(query));
     renderHotDeals(filtered);
-        }
-let isLoggedIn = false;
+}
 
+// --- Profile & Authentication Functions ---
 function openProfileModal() {
-    document.getElementById("profileModal").style.display = "flex";
-    updateProfileView();
+    let modal = document.getElementById("profileModal");
+    if (modal) {
+        modal.style.display = "flex";
+        updateProfileView();
+    }
 }
 
 function closeProfileModal() {
-    document.getElementById("profileModal").style.display = "none";
+    let modal = document.getElementById("profileModal");
+    if (modal) modal.style.display = "none";
 }
 
 function handleLogin() {
-    let phone = document.getElementById("userPhoneInput").value;
+    let phoneInput = document.getElementById("userPhoneInput");
+    if (!phoneInput) return;
+    
+    let phone = phoneInput.value;
     if (phone.length < 10) {
         alert("Kripya sahi 10 digit ka mobile number dalein!");
         return;
     }
     
-    // Login successful
     isLoggedIn = true;
     localStorage.setItem("groviaUser", phone);
     updateProfileView();
@@ -171,25 +194,35 @@ function handleLogin() {
 function handleLogout() {
     isLoggedIn = false;
     localStorage.removeItem("groviaUser");
-    document.getElementById("userPhoneInput").value = "";
+    let phoneInput = document.getElementById("userPhoneInput");
+    if (phoneInput) phoneInput.value = "";
     updateProfileView();
 }
 
-function updateProfileView() {
+function checkLoginState() {
     let savedPhone = localStorage.getItem("groviaUser");
     if (savedPhone) {
         isLoggedIn = true;
     }
+}
+
+function updateProfileView() {
+    checkLoginState();
 
     let loginSec = document.getElementById("loginSection");
     let menuSec = document.getElementById("menuSection");
     let modalTitle = document.getElementById("modalTitle");
 
+    if (!loginSec || !menuSec || !modalTitle) return;
+
     if (isLoggedIn) {
         loginSec.style.display = "none";
         menuSec.style.display = "block";
         modalTitle.innerText = "My Account";
-        document.getElementById("displayUserPhone").innerText = `+91 ${localStorage.getItem("groviaUser")}`;
+        let displayPhone = document.getElementById("displayUserPhone");
+        if (displayPhone) {
+            displayPhone.innerText = `+91 ${localStorage.getItem("groviaUser")}`;
+        }
     } else {
         loginSec.style.display = "block";
         menuSec.style.display = "none";

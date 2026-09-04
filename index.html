@@ -3,87 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blinkit Clone</title>
+    <title>Grovia - Quick Commerce</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Top Navigation Bar -->
-    <header class="navbar">
-        <div class="logo">blinkit</div>
-        
-        <div class="delivery-info">
-            <span class="time">Delivery in 10 minutes</span>
-            <span class="location">Etawah, Uttar Pradesh ▼</span>
+
+    <!-- Top Sticky Header -->
+    <header class="header">
+        <div class="delivery-box">
+            <span class="delivery-title">Delivery in 10 minutes</span>
+            <span class="delivery-location">5X5V+Q58, Sultanpura, Agra Cantt ▼</span>
         </div>
-        
-        <div class="search-bar">
-            <input type="text" placeholder="Search for groceries, vegetables...">
-        </div>
-        
-        <div class="cart-btn">
-            <button>🛒 My Cart</button>
-        </div>
+        <div class="profile-icon">👤</div>
     </header>
 
-    <!-- Main Content Area -->
-    <main>
-        <!-- Promotional Banner -->
-        <section class="banner">
-            <h2>Superfast Delivery To Your Doorstep</h2>
-        </section>
+    <!-- Search Bar -->
+    <div class="search-container">
+        <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" placeholder='Search "atta", "oil", "soap"...' onkeyup="filterProducts()">
+        </div>
+    </div>
 
-        <!-- Product Grid Section -->
-        <section class="products-section">
-            <h3>Dairy & Essentials</h3>
-            <div class="grid-container">
-                
-                <!-- Product Card 1 -->
-                <div class="card">
-                    <div class="img-placeholder">Product Image</div>
-                    <h4>Fresh Milk (Toned)</h4>
-                    <p>500 ml</p>
-                    <div class="price-add">
-                        <span>₹32</span>
-                        <button class="add-btn">ADD</button>
-                    </div>
-                </div>
+    <main class="main-container">
 
-                <!-- Product Card 2 -->
-                <div class="card">
-                    <div class="img-placeholder">Product Image</div>
-                    <h4>White Bread</h4>
-                    <p>1 packet</p>
-                    <div class="price-add">
-                        <span>₹40</span>
-                        <button class="add-btn">ADD</button>
-                    </div>
-                </div>
-
-                <!-- Product Card 3 -->
-                <div class="card">
-                    <div class="img-placeholder">Product Image</div>
-                    <h4>Fresh Tomatoes</h4>
-                    <p>1 kg</p>
-                    <div class="price-add">
-                        <span>₹60</span>
-                        <button class="add-btn">ADD</button>
-                    </div>
-                </div>
-
-                <!-- Product Card 4 -->
-                <div class="card">
-                    <div class="img-placeholder">Product Image</div>
-                    <h4>Potato (Aloo)</h4>
-                    <p>1 kg</p>
-                    <div class="price-add">
-                        <span>₹35</span>
-                        <button class="add-btn">ADD</button>
-                    </div>
-                </div>
-
+        <!-- Dynamic Trending / Best Sellers (Auto-managed by JS) -->
+        <section class="section">
+            <div class="section-header">
+                <h2>Trending Near You</h2>
+                <span class="see-all">see all</span>
+            </div>
+            <div class="horizontal-scroll" id="trendingContainer">
+                <!-- Products injected dynamically via JS based on popularity -->
             </div>
         </section>
+
+        <!-- Hot Deals Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2>Hot deals</h2>
+                <span class="see-all">see all</span>
+            </div>
+            <div class="grid-container" id="hotDealsContainer">
+                <!-- Product cards loaded dynamically -->
+            </div>
+        </section>
+
+        <!-- Grocery & Kitchen -->
+        <section class="section">
+            <div class="section-header">
+                <h2>Grocery & Kitchen</h2>
+            </div>
+            <div class="category-grid">
+                <div class="cat-card"><div class="cat-img">🌾</div><span>Atta, Rice & Dal</span></div>
+                <div class="cat-card"><div class="cat-img">🛢️</div><span>Oil, Ghee & Masala</span></div>
+                <div class="cat-card"><div class="cat-img">🥛</div><span>Dairy, Bread & Eggs</span></div>
+                <div class="cat-card"><div class="cat-img">🍪</div><span>Bakery & Biscuits</span></div>
+                <div class="cat-card"><div class="cat-img">🌰</div><span>Dry Fruits & Cereals</span></div>
+                <div class="cat-card"><div class="cat-img">🍳</div><span>Kitchenware & Appliances</span></div>
+            </div>
+        </section>
+
+        <!-- Snacks & Packaged Food (No Cold Drinks) -->
+        <section class="section">
+            <div class="section-header">
+                <h2>Snacks & Munchies</h2>
+            </div>
+            <div class="category-grid">
+                <div class="cat-card"><div class="cat-img">🥔</div><span>Chips & Namkeen</span></div>
+                <div class="cat-card"><div class="cat-img">🍫</div><span>Sweets & Chocolates</span></div>
+                <div class="cat-card"><div class="cat-img">☕</div><span>Tea, Coffee & Milk Drinks</span></div>
+                <div class="cat-card"><div class="cat-img">🍜</div><span>Instant Food</span></div>
+            </div>
+        </section>
+
+        <!-- Beauty & Personal Care -->
+        <section class="section">
+            <div class="section-header">
+                <h2>Beauty & Personal Care</h2>
+            </div>
+            <div class="category-grid">
+                <div class="cat-card"><div class="cat-img">🧼</div><span>Bath & Body</span></div>
+                <div class="cat-card"><div class="cat-img">💇</div><span>Hair Care</span></div>
+                <div class="cat-card"><div class="cat-img">🧴</div><span>Skin & Face</span></div>
+                <div class="cat-card"><div class="cat-img">💄</div><span>Beauty & Cosmetics</span></div>
+            </div>
+        </section>
+
     </main>
+
+    <!-- Floating Cart Bar -->
+    <div class="cart-bar" id="cartBar" style="display: none;">
+        <div class="cart-info">
+            <span id="cartCount">0 items</span>
+            <span class="cart-total" id="cartTotal">₹0</span>
+        </div>
+        <button class="view-cart-btn">View Cart 🛒</button>
+    </div>
+
+    <script src="script.js"></script>
 </body>
-                          </html>
+</html>
 

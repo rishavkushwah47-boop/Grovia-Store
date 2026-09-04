@@ -1,11 +1,11 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyAkqa8imtJgr9Cz3jTOB0c9PIzzs...",
-    authDomain: "grovia-store-19d42.firebaseapp.com",
-    projectId: "grovia-store-19d42",
-    storageBucket: "grovia-store-19d42.firebasestorage.app",
-    messagingSenderId: "866549682795",
-    appId: "1:866549682795:web:c2b9cdf4b3f414ec7572e",
-    measurementId: "G-TT7L0JPDPQ"
+  apiKey: "AIzaSyAkqa81mtjgr9Cz3jTOB0c9PIZzs5R6OwE",
+  authDomain: "grovia-store-19d42.firebaseapp.com",
+  projectId: "grovia-store-19d42",
+  storageBucket: "grovia-store-19d42.firebasestorage.app",
+  messagingSenderId: "866549682795",
+  appId: "1:866549682795:web:c2b9cdf4b3f4140ec7572e",
+  measurementId: "G-TT7L0JPDPQ"
 };
 
 // Initialize Firebase

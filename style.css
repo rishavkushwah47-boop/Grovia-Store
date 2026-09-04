@@ -31,9 +31,9 @@ body {
 }
 .store-tagline {
     font-size: 11px;
-    color: #666;
-    font-weight: 500;
-    margin-top: 2px;
+    color: #1E88E5; /* Yeh blue color kar dega */
+    font-weight: 600; /* Font ko thoda bold aur achha banayega */
+    letter-spacing: 0.2px;
 }
 
 .profile-icon {

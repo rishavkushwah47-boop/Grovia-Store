@@ -1,19 +1,19 @@
 const firebaseConfig = {
-  apiKey: "AIzaSyAkqa81mtjgr9Cz3jTOB0c9PIZzs5R6OwE",
-  authDomain: "grovia-store-19d42.firebaseapp.com",
-  projectId: "grovia-store-19d42",
-  storageBucket: "grovia-store-19d42.firebasestorage.app",
-  messagingSenderId: "866549682795",
-  appId: "1:866549682795:web:c2b9cdf4b3f4140ec7572e",
-  measurementId: "G-TT7L0JPDPQ"
+    apiKey: "AIzaSyAkqa8imtJgr9Cz3jTOB0c9PIzzs...",
+    authDomain: "grovia-store-19d42.firebaseapp.com",
+    projectId: "grovia-store-19d42",
+    storageBucket: "grovia-store-19d42.firebasestorage.app",
+    messagingSenderId: "866549682795",
+    appId: "1:866549682795:web:c2b9cdf4b3f414ec7572e",
+    measurementId: "G-TT7L0JPDPQ"
 };
+
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 
-let windowRecaptchaVerifier = null;
+let recaptchaVerifier = null;
 let confirmationResultGlobal = null;
 
-// --- Product Database ---
 let products = [
     { id: 1, name: "Whole Farm Grocery Cashew", weight: "200 g", price: 213, oldPrice: 299, discount: "28% OFF", emoji: "🥜", salesCount: 45 },
     { id: 2, name: "Whole Farm Grocery Makhana", weight: "100 g", price: 140, oldPrice: 210, discount: "33% OFF", emoji: "🍿", salesCount: 82 },
@@ -31,13 +31,13 @@ document.addEventListener("DOMContentLoaded", () => {
     renderTrending();
     checkLoginState();
     
-    // Firebase Invisible reCAPTCHA Setup
     try {
-        window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
+        recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
             'size': 'invisible'
         });
+        recaptchaVerifier.render();
     } catch (e) {
-        console.log("reCAPTCHA setup note:", e);
+        console.log("reCAPTCHA init note:", e);
     }
 });
 
@@ -96,9 +96,9 @@ function renderTrending() {
     });
 }
 
+// Mandatory login only when user clicks ADD to cart
 function addToCart(productId) {
     if (!isLoggedIn) {
-        alert("Pehle Sign up / Login karein!");
         openProfileModal();
         return;
     }
@@ -174,7 +174,7 @@ function closeCartModal() {
 }
 
 function checkoutOrder() {
-    alert("Order placed successfully with Grovia Store! (1 Day Delivery)");
+    alert("Order successfully placed with Grovia Store! Thank you for shopping.");
     cart = {};
     updateCartUI();
     closeCartModal();
@@ -186,7 +186,7 @@ function filterProducts() {
     renderHotDeals(filtered);
 }
 
-// --- Firebase Real SMS OTP Auth Logic ---
+// --- Firebase Phone Authentication Logic ---
 function openProfileModal() {
     let modal = document.getElementById("profileModal");
     if (modal) {
@@ -197,7 +197,7 @@ function openProfileModal() {
 
 function closeProfileModal() {
     if (!isLoggedIn) {
-        alert("Saman kharidne ke liye login karna anivarya hai!");
+        alert("Please login / sign up to continue shopping!");
         return;
     }
     let modal = document.getElementById("profileModal");
@@ -210,35 +210,33 @@ function sendOtp() {
 
     let phone = phoneInput.value;
     if (phone.length < 10) {
-        alert("Kripya sahi 10 digit ka mobile number dalein!");
+        alert("Please enter a valid 10-digit mobile number!");
         return;
     }
 
     let fullPhoneNumber = "+91" + phone;
-    let appVerifier = window.recaptchaVerifier;
 
-    // Firebase actual SMS bhejega
-    firebase.auth().signInWithPhoneNumber(fullPhoneNumber, appVerifier)
+    firebase.auth().signInWithPhoneNumber(fullPhoneNumber, recaptchaVerifier)
         .then(function (confirmationResult) {
             confirmationResultGlobal = confirmationResult;
             document.getElementById("loginPhoneStep").style.display = "none";
             document.getElementById("loginOtpStep").style.display = "block";
             document.getElementById("displaySentPhone").innerText = fullPhoneNumber;
-            alert("Real SMS OTP aapke number par bhej diya gaya hai!");
+            alert("Real SMS OTP sent successfully to your mobile number!");
         })
         .catch(function (error) {
             console.error("SMS Error:", error);
-            alert("OTP bhejne mein error aaya: " + error.message);
+            alert("Error sending OTP: " + error.message);
         });
 }
 
 function verifyOtp() {
-    let otpInputs = document.querySelectorAll(".otp-box");
-    let otpCode = "";
-    otpInputs.forEach(input => otpCode += input.value);
+    let otpInput = document.getElementById("otpCodeInput");
+    if (!otpInput) return;
 
-    if (otpCode.length < 4) {
-        alert("Kripya poora OTP dalein!");
+    let otpCode = otpInput.value;
+    if (otpCode.length < 6) {
+        alert("Please enter the complete 6-digit OTP!");
         return;
     }
 
@@ -250,8 +248,9 @@ function verifyOtp() {
         alert("Login Successful!");
         closeProfileModal();
         updateProfileView();
+        updateCartUI();
     }).catch(function (error) {
-        alert("Galat OTP! Kripya dobara check karein.");
+        alert("Invalid OTP! Please check and try again.");
     });
 }
 
@@ -266,6 +265,8 @@ function handleLogout() {
         localStorage.removeItem("groviaUser");
         let phoneInput = document.getElementById("userPhoneInput");
         if (phoneInput) phoneInput.value = "";
+        cart = {};
+        updateCartUI();
         closeProfileModal();
         checkLoginState();
     });
@@ -277,7 +278,6 @@ function checkLoginState() {
         isLoggedIn = true;
     } else {
         isLoggedIn = false;
-        openProfileModal(); // Pehli baar aane par mandatory login popup
     }
 }
 
@@ -305,4 +305,4 @@ function updateProfileView() {
         menuSec.style.display = "none";
         if (closeBtn) closeBtn.style.display = "none";
     }
-}
+                          }

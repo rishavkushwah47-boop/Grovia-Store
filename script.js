@@ -144,4 +144,55 @@ function filterProducts() {
     let filtered = products.filter(p => p.name.toLowerCase().includes(query));
     renderHotDeals(filtered);
         }
-        
+let isLoggedIn = false;
+
+function openProfileModal() {
+    document.getElementById("profileModal").style.display = "flex";
+    updateProfileView();
+}
+
+function closeProfileModal() {
+    document.getElementById("profileModal").style.display = "none";
+}
+
+function handleLogin() {
+    let phone = document.getElementById("userPhoneInput").value;
+    if (phone.length < 10) {
+        alert("Kripya sahi 10 digit ka mobile number dalein!");
+        return;
+    }
+    
+    // Login successful
+    isLoggedIn = true;
+    localStorage.setItem("groviaUser", phone);
+    updateProfileView();
+}
+
+function handleLogout() {
+    isLoggedIn = false;
+    localStorage.removeItem("groviaUser");
+    document.getElementById("userPhoneInput").value = "";
+    updateProfileView();
+}
+
+function updateProfileView() {
+    let savedPhone = localStorage.getItem("groviaUser");
+    if (savedPhone) {
+        isLoggedIn = true;
+    }
+
+    let loginSec = document.getElementById("loginSection");
+    let menuSec = document.getElementById("menuSection");
+    let modalTitle = document.getElementById("modalTitle");
+
+    if (isLoggedIn) {
+        loginSec.style.display = "none";
+        menuSec.style.display = "block";
+        modalTitle.innerText = "My Account";
+        document.getElementById("displayUserPhone").innerText = `+91 ${localStorage.getItem("groviaUser")}`;
+    } else {
+        loginSec.style.display = "block";
+        menuSec.style.display = "none";
+        modalTitle.innerText = "Login / Sign Up";
+    }
+}

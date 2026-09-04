@@ -26,16 +26,9 @@ body {
 
 .logo-area {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Yeh tagline ko seedha logo ke niche le ayega */
+    align-items: flex-start;
 }
-
-.store-name {
-    font-size: 22px;
-    font-weight: 900;
-    color: #4A148C;
-    line-height: 1.1;
-}
-
 .store-tagline {
     font-size: 11px;
     color: #666;

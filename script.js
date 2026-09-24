@@ -1,386 +1,120 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
+const products = [
 
-body {
-    background-color: #f7f5fa;
-    color: #222;
-    padding-bottom: 90px;
-}
+    {
+        id: 1,
+        name: "Fresh Milk",
+        unit: "1 L",
+        price: 65,
+        image: "https://via.placeholder.com/200"
+    },
 
-/* Header - Grovia Store Branding */
-.header {
-    background-color: #ffffff;
-    padding: 14px 16px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
+    {
+        id: 2,
+        name: "Fresh Bananas",
+        unit: "1 kg",
+        price: 50,
+        image: "https://via.placeholder.com/200"
+    },
 
-.logo-area {
-    display: flex;
-    flex-direction: column; /* Yeh tagline ko seedha logo ke niche le ayega */
-    align-items: flex-start;
-}
-.store-tagline {
-    font-size: 11px;
-    color: #666;
-    font-weight: 500;
-    margin-top: 2px;
-}
+    {
+        id: 3,
+        name: "Potato",
+        unit: "1 kg",
+        price: 40,
+        image: "https://via.placeholder.com/200"
+    },
 
-.profile-icon {
-    font-size: 18px;
-    background: #f3ecfb;
-    padding: 8px 12px;
-    border-radius: 50%;
-    color: #6A1B9A;
-}
+    {
+        id: 4,
+        name: "Tomato",
+        unit: "1 kg",
+        price: 45,
+        image: "https://via.placeholder.com/200"
+    },
 
-/* Search Bar */
-.search-container {
-    background-color: #ffffff;
-    padding: 10px 16px 14px 16px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
-    position: sticky;
-    top: 59px;
-    z-index: 99;
-}
+    {
+        id: 5,
+        name: "Biscuits",
+        unit: "200 g",
+        price: 30,
+        image: "https://via.placeholder.com/200"
+    },
 
-.search-box {
-    display: flex;
-    align-items: center;
-    background-color: #f3ecfb;
-    border: 1px solid #e1dced;
-    border-radius: 10px;
-    padding: 10px 14px;
-}
-
-.search-icon {
-    margin-right: 8px;
-    font-size: 14px;
-}
-
-.search-box input {
-    border: none;
-    background: transparent;
-    outline: none;
-    width: 100%;
-    font-size: 14px;
-    color: #333;
-}
-
-/* Main Container */
-.main-container {
-    padding: 16px;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.section {
-    margin-bottom: 24px;
-}
-
-.section-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.section-header h2 {
-    font-size: 18px;
-    font-weight: 800;
-    color: #111;
-}
-
-.see-all {
-    font-size: 13px;
-    font-weight: 700;
-    color: #6A1B9A;
-    cursor: pointer;
-}
-
-/* Horizontal Scroll */
-.horizontal-scroll {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    padding-bottom: 6px;
-    scrollbar-width: none;
-}
-.horizontal-scroll::-webkit-scrollbar {
-    display: none;
-}
-
-/* Product Grid */
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-}
-
-/* Product Card */
-.product-card {
-    background: #ffffff;
-    border: 1px solid #eee;
-    border-radius: 12px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
-}
-
-.discount-badge {
-    position: absolute;
-    top: 8px;
-    left: 8px;
-    background: #6A1B9A;
-    color: white;
-    font-size: 10px;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 4px;
-}
-
-.product-img {
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 45px;
-    margin: 10px 0;
-    background: #fbf8ff;
-    border-radius: 8px;
-}
-
-.delivery-tag {
-    font-size: 10px;
-    font-weight: 700;
-    color: #4A148C;
-    background: #f3ecfb;
-    padding: 2px 6px;
-    border-radius: 4px;
-    width: fit-content;
-    margin-bottom: 4px;
-}
-
-.product-name {
-    font-size: 13px;
-    font-weight: 600;
-    color: #222;
-    margin-bottom: 2px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.product-weight {
-    font-size: 11px;
-    color: #777;
-    margin-bottom: 8px;
-}
-
-.card-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: auto;
-}
-
-.price-box .current-price {
-    font-size: 14px;
-    font-weight: 800;
-    color: #111;
-}
-
-.price-box .old-price {
-    font-size: 11px;
-    color: #888;
-    text-decoration: line-through;
-    display: block;
-}
-
-.add-btn {
-    background: #f3ecfb;
-    border: 1.5px solid #6A1B9A;
-    color: #6A1B9A;
-    font-weight: 800;
-    font-size: 12px;
-    padding: 6px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    text-transform: uppercase;
-}
-
-.add-btn:active {
-    background: #6A1B9A;
-    color: white;
-}
-
-/* Category Grid */
-.category-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-}
-
-.cat-card {
-    background: #ffffff;
-    border: 1px solid #eee;
-    border-radius: 12px;
-    padding: 10px 4px;
-    text-align: center;
-}
-
-.cat-img {
-    height: 55px;
-    background: #f3ecfb;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    margin-bottom: 6px;
-}
-
-.cat-card span {
-    font-size: 11px;
-    font-weight: 600;
-    color: #333;
-    display: block;
-    line-height: 1.2;
-}
-
-/* Floating Cart Bar */
-.cart-bar {
-    position: fixed;
-    bottom: 16px;
-    left: 16px;
-    right: 16px;
-    background: #6A1B9A;
-    color: white;
-    padding: 12px 18px;
-    border-radius: 12px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    box-shadow: 0 4px 15px rgba(106, 27, 154, 0.4);
-    z-index: 1000;
-    cursor: pointer;
-}
-
-.cart-info {
-    display: flex;
-    flex-direction: column;
-}
-
-#cartCount {
-    font-size: 12px;
-    opacity: 0.9;
-}
-
-.cart-total {
-    font-size: 15px;
-    font-weight: 800;
-}
-
-.view-cart-btn {
-    background: white;
-    color: #6A1B9A;
-    border: none;
-    font-weight: 800;
-    padding: 8px 16px;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-/* Cart Modal Drawer */
-.cart-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 2000;
-    display: flex;
-    align-items: flex-end;
-}
-
-.cart-modal-content {
-    background: white;
-    width: 100%;
-    max-height: 80vh;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-}
-
-.modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-}
-
-.close-btn {
-    font-size: 18px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.cart-items-list {
-    overflow-y: auto;
-    max-height: 40vh;
-    margin-bottom: 10px;
-}
-
-.cart-item-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #f7f5fa;
-    font-size: 14px;
-}
-
-.modal-footer {
-    border-top: 1px solid #eee;
-    padding-top: 12px;
-}
-
-.modal-total {
-    display: flex;
-    justify-content: space-between;
-    font-weight: 800;
-    font-size: 16px;
-    margin-bottom: 12px;
-}
-
-.checkout-btn {
-    width: 100%;
-    background: #6A1B9A;
-    color: white;
-    border: none;
-    padding: 12px;
-    border-radius: 10px;
-    font-weight: 800;
-    font-size: 15px;
-    cursor: pointer;
+    {
+        id: 6,
+        name: "Cold Drink",
+        unit: "750 ml",
+        price: 45,
+        image: "https://via.placeholder.com/200"
     }
-    
+
+];
+
+
+function displayProducts(productList = products) {
+
+    const container =
+        document.getElementById("productContainer");
+
+
+    if (!container) return;
+
+
+    container.innerHTML = "";
+
+
+    productList.forEach(product => {
+
+        const card =
+            document.createElement("div");
+
+
+        card.className =
+            "product-card";
+
+
+        card.innerHTML = `
+
+            <img
+                src="${product.image}"
+                class="product-image"
+                alt="${product.name}"
+            >
+
+            <div class="product-name">
+                ${product.name}
+            </div>
+
+            <div class="product-unit">
+                ${product.unit}
+            </div>
+
+            <div class="product-price">
+                ₹${product.price}
+            </div>
+
+            <button
+                class="add-cart"
+                onclick="addToCart(${product.id})"
+            >
+                Add
+            </button>
+
+        `;
+
+
+        container.appendChild(card);
+
+    });
+
+}
+
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        displayProducts();
+
+    }
+);

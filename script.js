@@ -1,231 +1,386 @@
-// --- Product Database (No Fruits, Veg, Frozen, or Cold drinks) ---
-let products = [
-    { id: 1, name: "Whole Farm Grocery Cashew", weight: "200 g", price: 213, oldPrice: 299, discount: "28% OFF", emoji: "🥜", salesCount: 45 },
-    { id: 2, name: "Whole Farm Grocery Makhana", weight: "100 g", price: 140, oldPrice: 210, discount: "33% OFF", emoji: "🍿", salesCount: 82 },
-    { id: 3, name: "Whole Farm Grocery Raisins", weight: "200 g", price: 118, oldPrice: 200, discount: "41% OFF", emoji: "🍇", salesCount: 30 },
-    { id: 4, name: "Aashirvaad Superior MP Atta", weight: "5 kg", price: 235, oldPrice: 260, discount: "10% OFF", emoji: "🌾", salesCount: 95 },
-    { id: 5, name: "Fortune Sun Lite Sunflower Oil", weight: "1 L", price: 130, oldPrice: 155, discount: "16% OFF", emoji: "🛢️", salesCount: 60 },
-    { id: 6, name: "Tata Salt Vacuum Evaporated", weight: "1 kg", price: 28, oldPrice: 30, discount: "6% OFF", emoji: "🧂", salesCount: 110 }
-];
-
-let cart = {};
-let isLoggedIn = false;
-
-// --- Initialize Page ---
-document.addEventListener("DOMContentLoaded", () => {
-    renderHotDeals(products);
-    renderTrending();
-    checkLoginState();
-});
-
-// --- Render Hot Deals ---
-function renderHotDeals(items) {
-    const container = document.getElementById("hotDealsContainer");
-    if (!container) return;
-    container.innerHTML = "";
-
-    items.forEach(product => {
-        container.innerHTML += `
-            <div class="product-card">
-                <span class="discount-badge">${product.discount}</span>
-                <div class="product-img">${product.emoji}</div>
-                <div>
-                    <div class="delivery-tag">🚚 1 Day Delivery</div>
-                    <div class="product-name">${product.name}</div>
-                    <div class="product-weight">${product.weight}</div>
-                </div>
-                <div class="card-footer">
-                    <div class="price-box">
-                        <span class="current-price">₹${product.price}</span>
-                        <span class="old-price">₹${product.oldPrice}</span>
-                    </div>
-                    <button class="add-btn" onclick="addToCart(${product.id})">ADD</button>
-                </div>
-            </div>
-        `;
-    });
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-// --- Render Trending Section ---
-function renderTrending() {
-    const container = document.getElementById("trendingContainer");
-    if (!container) return;
-    container.innerHTML = "";
-
-    let sortedProducts = [...products].sort((a, b) => b.salesCount - a.salesCount);
-
-    sortedProducts.forEach(product => {
-        container.innerHTML += `
-            <div class="product-card" style="min-width: 155px;">
-                <span class="discount-badge">${product.discount}</span>
-                <div class="product-img">${product.emoji}</div>
-                <div>
-                    <div class="delivery-tag">🚚 1 Day Delivery</div>
-                    <div class="product-name">${product.name}</div>
-                    <div class="product-weight">${product.weight}</div>
-                </div>
-                <div class="card-footer">
-                    <div class="price-box">
-                        <span class="current-price">₹${product.price}</span>
-                    </div>
-                    <button class="add-btn" onclick="addToCart(${product.id})">ADD</button>
-                </div>
-            </div>
-        `;
-    });
+body {
+    background-color: #f7f5fa;
+    color: #222;
+    padding-bottom: 90px;
 }
 
-// --- Add to Cart ---
-function addToCart(productId) {
-    let product = products.find(p => p.id === productId);
-    if (product) {
-        product.salesCount += 15; 
-        if (cart[productId]) {
-            cart[productId].qty += 1;
-        } else {
-            cart[productId] = { ...product, qty: 1 };
-        }
-        updateCartUI();
-        renderTrending();
+/* Header - Grovia Store Branding */
+.header {
+    background-color: #ffffff;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo-area {
+    display: flex;
+    flex-direction: column; /* Yeh tagline ko seedha logo ke niche le ayega */
+    align-items: flex-start;
+}
+.store-tagline {
+    font-size: 11px;
+    color: #666;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.profile-icon {
+    font-size: 18px;
+    background: #f3ecfb;
+    padding: 8px 12px;
+    border-radius: 50%;
+    color: #6A1B9A;
+}
+
+/* Search Bar */
+.search-container {
+    background-color: #ffffff;
+    padding: 10px 16px 14px 16px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+    position: sticky;
+    top: 59px;
+    z-index: 99;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: #f3ecfb;
+    border: 1px solid #e1dced;
+    border-radius: 10px;
+    padding: 10px 14px;
+}
+
+.search-icon {
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    outline: none;
+    width: 100%;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Main Container */
+.main-container {
+    padding: 16px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.section {
+    margin-bottom: 24px;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.section-header h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #111;
+}
+
+.see-all {
+    font-size: 13px;
+    font-weight: 700;
+    color: #6A1B9A;
+    cursor: pointer;
+}
+
+/* Horizontal Scroll */
+.horizontal-scroll {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+}
+.horizontal-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+/* Product Grid */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+/* Product Card */
+.product-card {
+    background: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.discount-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: #6A1B9A;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.product-img {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 45px;
+    margin: 10px 0;
+    background: #fbf8ff;
+    border-radius: 8px;
+}
+
+.delivery-tag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #4A148C;
+    background: #f3ecfb;
+    padding: 2px 6px;
+    border-radius: 4px;
+    width: fit-content;
+    margin-bottom: 4px;
+}
+
+.product-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #222;
+    margin-bottom: 2px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.product-weight {
+    font-size: 11px;
+    color: #777;
+    margin-bottom: 8px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+}
+
+.price-box .current-price {
+    font-size: 14px;
+    font-weight: 800;
+    color: #111;
+}
+
+.price-box .old-price {
+    font-size: 11px;
+    color: #888;
+    text-decoration: line-through;
+    display: block;
+}
+
+.add-btn {
+    background: #f3ecfb;
+    border: 1.5px solid #6A1B9A;
+    color: #6A1B9A;
+    font-weight: 800;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.add-btn:active {
+    background: #6A1B9A;
+    color: white;
+}
+
+/* Category Grid */
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.cat-card {
+    background: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 10px 4px;
+    text-align: center;
+}
+
+.cat-img {
+    height: 55px;
+    background: #f3ecfb;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.cat-card span {
+    font-size: 11px;
+    font-weight: 600;
+    color: #333;
+    display: block;
+    line-height: 1.2;
+}
+
+/* Floating Cart Bar */
+.cart-bar {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    background: #6A1B9A;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 15px rgba(106, 27, 154, 0.4);
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.cart-info {
+    display: flex;
+    flex-direction: column;
+}
+
+#cartCount {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+.cart-total {
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.view-cart-btn {
+    background: white;
+    color: #6A1B9A;
+    border: none;
+    font-weight: 800;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Cart Modal Drawer */
+.cart-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 2000;
+    display: flex;
+    align-items: flex-end;
+}
+
+.cart-modal-content {
+    background: white;
+    width: 100%;
+    max-height: 80vh;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.close-btn {
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cart-items-list {
+    overflow-y: auto;
+    max-height: 40vh;
+    margin-bottom: 10px;
+}
+
+.cart-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid #f7f5fa;
+    font-size: 14px;
+}
+
+.modal-footer {
+    border-top: 1px solid #eee;
+    padding-top: 12px;
+}
+
+.modal-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 800;
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.checkout-btn {
+    width: 100%;
+    background: #6A1B9A;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 15px;
+    cursor: pointer;
     }
-}
-
-// --- Update Cart Floating Bar ---
-function updateCartUI() {
-    let totalItems = 0;
-    let totalPrice = 0;
-
-    for (let id in cart) {
-        totalItems += cart[id].qty;
-        totalPrice += cart[id].price * cart[id].qty;
-    }
-
-    const cartBar = document.getElementById("cartBar");
-    if (!cartBar) return;
-
-    if (totalItems > 0) {
-        cartBar.style.display = "flex";
-        document.getElementById("cartCount").innerText = `${totalItems} item${totalItems > 1 ? 's' : ''}`;
-        document.getElementById("cartTotal").innerText = `₹${totalPrice}`;
-    } else {
-        cartBar.style.display = "none";
-    }
-}
-
-// --- Cart Modal Functions ---
-function openCartModal() {
-    const modal = document.getElementById("cartModal");
-    const listContainer = document.getElementById("cartItemsList");
-    if (!modal || !listContainer) return;
-
-    listContainer.innerHTML = "";
-    let totalPrice = 0;
-
-    for (let id in cart) {
-        let item = cart[id];
-        let itemTotal = item.price * item.qty;
-        totalPrice += itemTotal;
-
-        listContainer.innerHTML += `
-            <div class="cart-item-row">
-                <div>
-                    <strong>${item.name}</strong><br>
-                    <small>₹${item.price} x ${item.qty}</small>
-                </div>
-                <div><b>₹${itemTotal}</b></div>
-            </div>
-        `;
-    }
-
-    document.getElementById("modalTotalPrice").innerText = `₹${totalPrice}`;
-    modal.style.display = "flex";
-}
-
-function closeCartModal() {
-    const modal = document.getElementById("cartModal");
-    if (modal) modal.style.display = "none";
-}
-
-function checkoutOrder() {
-    alert("Order placed successfully with Grovia Store! (1 Day Delivery)");
-    cart = {};
-    updateCartUI();
-    closeCartModal();
-}
-
-// --- Search Filter ---
-function filterProducts() {
-    let searchInput = document.getElementById("searchInput");
-    if (!searchInput) return;
-    let query = searchInput.value.toLowerCase();
-    let filtered = products.filter(p => p.name.toLowerCase().includes(query));
-    renderHotDeals(filtered);
-}
-
-// --- Profile & Authentication Functions ---
-function openProfileModal() {
-    let modal = document.getElementById("profileModal");
-    if (modal) {
-        modal.style.display = "flex";
-        updateProfileView();
-    }
-}
-
-function closeProfileModal() {
-    let modal = document.getElementById("profileModal");
-    if (modal) modal.style.display = "none";
-}
-
-function handleLogin() {
-    let phoneInput = document.getElementById("userPhoneInput");
-    if (!phoneInput) return;
     
-    let phone = phoneInput.value;
-    if (phone.length < 10) {
-        alert("Kripya sahi 10 digit ka mobile number dalein!");
-        return;
-    }
-    
-    isLoggedIn = true;
-    localStorage.setItem("groviaUser", phone);
-    updateProfileView();
-}
-
-function handleLogout() {
-    isLoggedIn = false;
-    localStorage.removeItem("groviaUser");
-    let phoneInput = document.getElementById("userPhoneInput");
-    if (phoneInput) phoneInput.value = "";
-    updateProfileView();
-}
-
-function checkLoginState() {
-    let savedPhone = localStorage.getItem("groviaUser");
-    if (savedPhone) {
-        isLoggedIn = true;
-    }
-}
-
-function updateProfileView() {
-    checkLoginState();
-
-    let loginSec = document.getElementById("loginSection");
-    let menuSec = document.getElementById("menuSection");
-    let modalTitle = document.getElementById("modalTitle");
-
-    if (!loginSec || !menuSec || !modalTitle) return;
-
-    if (isLoggedIn) {
-        loginSec.style.display = "none";
-        menuSec.style.display = "block";
-        modalTitle.innerText = "My Account";
-        let displayPhone = document.getElementById("displayUserPhone");
-        if (displayPhone) {
-            displayPhone.innerText = `+91 ${localStorage.getItem("groviaUser")}`;
-        }
-    } else {
-        loginSec.style.display = "block";
-        menuSec.style.display = "none";
-        modalTitle.innerText = "Login / Sign Up";
-    }
-        }

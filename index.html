@@ -1,105 +1,82 @@
 <!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Grovia — three homepage directions</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#FBF8F2;--ink:#231F2B;--mute:#6B6475;--line:#E2DAEC;--plum:#6D20CA;--lav:#EDE5FA;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#16121C;--ink:#F1ECF7;--mute:#A79FB3;--line:#352C43;--plum:#B48CF2;--lav:#2A2038}}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.5 "DM Sans",system-ui,sans-serif;overflow-x:hidden}
-.w{max-width:1100px;margin:0 auto;padding:16px}
-h1{font-size:22px;margin:4px 0}p{margin:4px 0;color:var(--mute)}
-.tabs,.ctl{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-button{font:inherit;color:inherit;border:1.5px solid var(--line);background:transparent;border-radius:10px;padding:9px 14px;min-height:44px;cursor:pointer}
-button[aria-pressed=true]{background:var(--plum);border-color:var(--plum);color:#fff}
-:root:not([data-theme=light]) button[aria-pressed=true]{color:#16121C}
-:focus-visible{outline:3px solid var(--plum);outline-offset:2px}
-.info{background:var(--lav);border-radius:14px;padding:12px 14px;margin:8px 0}
-.info h2{font-size:18px;margin:0 0 4px}.info ul{margin:6px 0 0;padding-left:18px}.info li{margin:2px 0}
-.stage{overflow:auto;border:1px solid var(--line);border-radius:14px;background:repeating-conic-gradient(var(--lav) 0 25%,transparent 0 50%) 0 0/20px 20px;padding:12px;display:flex;justify-content:center}
-.fw{position:relative;flex:none}
-iframe{border:0;background:#fff;border-radius:10px;transform-origin:0 0;position:absolute;left:0;top:0;box-shadow:0 8px 30px rgba(0,0,0,.18)}
-.n{font-size:12px;color:var(--mute);margin-top:10px}
-</style></head><body>
-<div class="w">
-<h1>Three homepage directions for Grovia</h1>
-<p>Live pages rendered at real phone and desktop widths. Scroll inside the frame and tap Add buttons. All products, prices and routes are sample data.</p>
-<div class="tabs" role="group" aria-label="Direction">
-<button data-k="A" aria-pressed="true">A · Rate Board</button><button data-k="B" aria-pressed="false">B · Trip Tracker</button><button data-k="C" aria-pressed="false">C · Rashan Box</button></div>
-<div class="info" id="info"></div>
-<div class="ctl"><span role="group" aria-label="Size" style="display:flex;gap:8px"><button data-v="m" aria-pressed="true">Phone 390</button><button data-v="d" aria-pressed="false">Desktop 1280</button></span>
-<span role="group" aria-label="Zoom" id="zm" style="display:none;gap:8px"><button data-z="fit" aria-pressed="true">Fit</button><button data-z="50" aria-pressed="false">50%</button><button data-z="100" aria-pressed="false">100%</button></span></div>
-<div class="stage" id="stage"><div class="fw" id="fw"><iframe id="fr" title="Homepage preview"></iframe></div></div>
-<p class="n">Product images are drawn placeholders. Real photography is a separate shoot or licensed set, and not part of this preview. Tell me A, B or C, or which parts to combine.</p>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Grovia Store - 10 Min Delivery</title>
+<!-- CSS FILE LINK -->
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-top">
+    <!-- YAHAN AAPKA LOGO LAGEGA -->
+    <div class="logo-container">
+      <img src="grovia-logo.png" alt="Grovia Store" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <!-- Agar image na mile toh fallback text dikhega -->
+      <h2 style="display:none; color:var(--primary); font-weight:900; font-size:24px; letter-spacing:-1px;">Grovia</h2>
+    </div>
+
+    <div class="delivery-info">
+      <div class="delivery-time">⚡ 10 mins</div>
+      <div class="delivery-loc">📍 Sector 21, Noida ▾</div>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search for milk, bread, chips...">
+    </div>
+  </div>
+
+  <!-- CATEGORIES -->
+  <div class="categories" id="categories">
+    <!-- JS will populate this -->
+  </div>
+</header>
+
+<!-- MAIN CONTENT -->
+<main>
+  <div class="section-title" id="sectionTitle">Daily Essentials ⚡</div>
+  <div class="grid" id="productGrid"></div>
+</main>
+
+<!-- FLOATING CART -->
+<div class="floating-cart" id="floatingCart">
+  <div class="cart-info">
+    <span id="cartItemCount">2 items</span>
+    <span id="cartTotalPrice">₹120</span>
+  </div>
+  <button class="view-cart-btn">View Cart ▸</button>
 </div>
-<script>
-const FONTS='<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Hind:wght@400;500;600&family=Schibsted+Grotesk:wght@500;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">';
-const LOGO='url(data:image/webp;base64,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)';
-const BASE=`*{box-sizing:border-box;margin:0;padding:0}body{-webkit-font-smoothing:antialiased;overflow-x:hidden;line-height:1.45}button,a{font:inherit;color:inherit;cursor:pointer;text-decoration:none;background:none;border:0}:focus-visible{outline:2px solid #6D20CA;outline-offset:2px}
-.lg{display:block;aspect-ratio:3;background:currentColor;-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat}
-.o{display:block;flex:none;width:var(--s,48px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 33% 27%,#fff9 0 7%,#fff0 8%),radial-gradient(circle at 40% 35%,color-mix(in srgb,var(--c) 72%,#fff),var(--c) 58%,color-mix(in srgb,var(--c) 68%,#000));box-shadow:0 .5em .8em -.35em #0007}
-.b{animation:bp .3s}@keyframes bp{40%{transform:scale(1.3)}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}`;
-const D={};
-D.A={css:`body{background:#FBF8F2;color:#2A1050;font:400 16px Hind,system-ui,sans-serif;padding-bottom:68px}
-.h{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1.5px solid #2A1050}.h .lg{color:#6D20CA;width:84px}.h nav{display:none;gap:22px;flex:1;justify-content:center;font-weight:500}.sp{flex:1}
-.pill{border:1.5px solid #2A1050;border-radius:99px;padding:6px 13px;font-weight:600;white-space:nowrap}.pill.f{background:#2A1050;color:#FBF8F2}.pill b{display:inline-block;min-width:18px}
-.hero{padding:24px 16px;display:grid;gap:28px}
-h1{font:800 clamp(34px,9vw,58px)/1 Fraunces,Georgia,serif;letter-spacing:-.02em}
-.hero p{max-width:46ch;margin-top:14px;color:#4b3b66}
-.wk{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:22px;max-width:420px}
-.wk span{border:1.5px solid #2A1050;border-radius:8px;text-align:center;padding:7px 0 5px;font-weight:600;font-size:12px}.wk b{display:block;font:800 19px Fraunces,serif}
-.wk .on{background:#6D20CA;border-color:#6D20CA;color:#fff;animation:fill .7s .3s both}.wk .on:nth-child(5){animation-delay:.9s}
-@keyframes fill{from{background:transparent;color:#2A1050;border-color:#2A1050}}
-.lgd{font-size:13px;margin-top:10px}
-.bd{background:#EDE5FA;border:1.5px solid #2A1050;border-radius:6px 6px 22px 22px;padding:16px 16px 8px;box-shadow:6px 6px 0 #2A1050}
-.bd h2{font:600 26px Hind;display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:6px}.bd small{font:500 12px Hind}
-.r{display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1.5px dashed #2A105066}.r div{flex:1;min-width:0}.r b{display:block;font-weight:600}.r span{font-size:13px;color:#5a4a75}
-.r em{font:800 20px Fraunces,serif;font-style:normal}.add{width:38px;height:38px;border-radius:50%;background:#2A1050;color:#fff;font-size:22px;line-height:1;flex:none}
-.tab{position:fixed;bottom:0;left:0;right:0;display:flex;background:#FBF8F2;border-top:1.5px solid #2A1050;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px))}.tab a{flex:1;text-align:center;font-size:12px;font-weight:600}.tab a:first-child{color:#6D20CA}
-@media(min-width:900px){body{padding:0}.h{padding:16px 48px}.h .lg{width:110px}.h nav{display:flex}.hero{grid-template-columns:1.05fr 1fr;padding:64px 48px;gap:64px;align-items:start}.tab{display:none}}`,
-html:`<header class=h><i class=lg role=img aria-label=Grovia></i><nav><a href=#>Fruits &amp; veg</a><a href=#>Atta &amp; dal</a><a href=#>Dairy</a><a href=#>Oil &amp; masala</a><a href=#>Home care</a></nav><span class=sp></span><button class=pill>Ramnagar ▾</button><button class="pill f">Cart <b class=cc>0</b></button></header>
-<main class=hero><section><h1>Order by 10 AM. Rashan reaches Ramnagar by 4.</h1><p>Our trips to your village run on fixed days. Four or five homes share each trip, so we only drive when it makes sense.</p>
-<div class=wk aria-label="This week's routes"><span>Mon<b>26</b></span><span class=on>Tue<b>27</b></span><span>Wed<b>28</b></span><span>Thu<b>29</b></span><span class=on>Fri<b>30</b></span><span>Sat<b>31</b></span><span>Sun<b>1</b></span></div>
-<p class=lgd>Filled days are Ramnagar trips. Today’s cutoff is 10 AM.</p></section>
-<section class=bd><h2>आज का भाव <small>Rates for Ramnagar</small></h2>
-<div class=r><i class=o style="--c:#B98F5B"></i><div><b>Aloo (Potato)</b><span>1 kg</span></div><em>₹32</em><button class=add data-add aria-label="Add Aloo">+</button></div>
-<div class=r><i class=o style="--c:#D4452F"></i><div><b>Tamatar (Tomato)</b><span>500 g</span></div><em>₹28</em><button class=add data-add aria-label="Add Tamatar">+</button></div>
-<div class=r><i class=o style="--c:#DCE8F5"></i><div><b>Doodh (Full cream milk)</b><span>500 ml</span></div><em>₹33</em><button class=add data-add aria-label="Add Doodh">+</button></div>
-<div class=r><i class=o style="--c:#D9A441"></i><div><b>Toor dal</b><span>1 kg</span></div><em>₹149</em><button class=add data-add aria-label="Add Toor dal">+</button></div>
-<div class=r><i class=o style="--c:#E9D3A0"></i><div><b>Atta</b><span>5 kg</span></div><em>₹245</em><button class=add data-add aria-label="Add Atta">+</button></div></section></main>
-<nav class=tab><a href=#>Home</a><a href=#>Categories</a><a href=#>Rates</a><a href=#>Cart</a></nav>`};
-D.B={css:`body{background:#1C0A38;color:#F1E9FC;font:400 15px "Schibsted Grotesk",system-ui,sans-serif;padding-bottom:90px}
-.top{display:flex;align-items:center;gap:10px;padding:14px 16px}.top .lg,.rail .lg{color:#fff;width:90px}.sp{flex:1}
-.chip{background:#2d1654;border-radius:10px;padding:7px 12px;font-weight:600;white-space:nowrap}
-.cc{display:inline-block;background:#CDB8F5;color:#1C0A38;border-radius:9px;min-width:20px;text-align:center;font-weight:800;font-size:12px;padding:0 5px}
-.rail{display:none}
-.map{margin:4px 14px 0;border-radius:22px;background:#2a1352;border:1px solid #4a2a80;padding:18px 16px;display:grid;gap:8px}
-h1{font:800 clamp(28px,7.5vw,42px)/1.05 "Schibsted Grotesk";letter-spacing:-.03em}.tx p{margin:10px 0;color:#CDB8F5}
-svg{width:100%;height:auto;display:block}svg text{fill:#F1E9FC;font:600 11px "Schibsted Grotesk"}
-.seats{display:flex;gap:6px;margin:12px 0}.seats i{width:30px;height:8px;border-radius:4px;background:#CDB8F5}.seats i.e{background:#4a2a80}.seats i.me{background:#fff;animation:bl 1.4s infinite}@keyframes bl{50%{opacity:.35}}
-.cta{background:#CDB8F5;color:#1C0A38;font-weight:800;border-radius:12px;padding:13px 18px;width:100%;min-height:46px}
-.sh h2{font:700 20px "Schibsted Grotesk";padding:22px 16px 10px;letter-spacing:-.01em}
-.row{display:flex;gap:12px;overflow-x:auto;padding:0 16px 6px;scrollbar-width:none}
-.c{flex:none;width:152px;background:#FBF8F2;color:#2A1050;border-radius:16px;padding:10px;display:grid;gap:3px}
-.pic{height:96px;display:grid;place-items:center;background:#EDE5FA;border-radius:11px;margin-bottom:6px}.c b{font-size:14px}.c span{font-size:12px;color:#6b5a85}
-.c .p{display:flex;justify-content:space-between;align-items:center;font-weight:800;margin-top:4px}.add{width:36px;height:36px;border-radius:10px;background:#6D20CA;color:#fff;font-size:20px}
-.bar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));background:#CDB8F5;color:#1C0A38;border-radius:16px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;font-weight:700;box-shadow:0 10px 30px #0008}
-.bar button{background:#1C0A38;color:#fff;border-radius:10px;padding:8px 14px;font-weight:700}
-@media(min-width:900px){body{display:grid;grid-template-columns:230px 1fr;padding:0}.top{display:none}.rail{display:flex;flex-direction:column;gap:4px;padding:26px 18px;border-right:1px solid #3a2063;height:100vh;position:sticky;top:0}.rail .lg{margin-bottom:22px}.rail a{padding:10px 12px;border-radius:10px;font-weight:500}.rail a:first-of-type{background:#2d1654}
-.map{grid-template-columns:1fr 1.15fr;align-items:center;gap:28px;margin:26px 30px 0;padding:30px}.sh h2{padding:28px 30px 12px}.row{padding:0 30px 6px}.c{width:178px}.pic{height:116px}.bar{left:auto;right:24px;width:370px}}`,
-html:`<header class=top><i class=lg role=img aria-label=Grovia></i><span class=sp></span><button class=chip>Ramnagar ▾</button><button class=chip>Cart <b class=cc>0</b></button></header>
-<aside class=rail><i class=lg role=img aria-label=Grovia></i><a href=#>Tuesday trip</a><a href=#>Vegetables</a><a href=#>Atta &amp; dal</a><a href=#>Dairy</a><a href=#>Oil &amp; masala</a><a href=#>Home care</a><button class=chip style="margin-top:auto;text-align:left">Ramnagar ▾</button></aside>
-<main><section class=map><div class=tx><h1>Tuesday’s trip to Ramnagar has 2 seats left.</h1><p>Leaves at 2 PM, reaches you around 4. Orders close at 10 AM.</p><div class=seats role=img aria-label="3 of 5 homes booked, your seat open"><i></i><i></i><i></i><i class=me></i><i class=e></i></div><button class=cta>Add to this trip</button></div>
-<svg viewBox="0 0 420 150" role=img aria-label="Route map"><path id=rt d="M20 110C60 110 70 50 110 50S170 100 220 100S300 40 340 40S390 90 400 90" fill=none stroke="#CDB8F5" stroke-width=3 stroke-dasharray="2 8" stroke-linecap=round /><g fill="#4a2a80" stroke="#CDB8F5" stroke-width=2><circle cx=20 cy=110 r=6 /><circle cx=110 cy=50 r=6 /><circle cx=340 cy=40 r=6 /><circle cx=400 cy=90 r=6 /></g><circle cx=220 cy=100 r=11 fill="#fff" /><circle cx=220 cy=100 r=5 fill="#6D20CA" />
-<text x=20 y=132>Depot</text><text x=84 y=36>Sitapur</text><text x=190 y=128>Ramnagar · you</text><text x=316 y=26>Devgaon</text><text x=360 y=112>Kheda</text><circle r=7 fill="#fff"><animateMotion dur="9s" repeatCount=indefinite><mpath href="#rt" /></animateMotion></circle></svg></section>
-<section class=sh><h2>Add to Tuesday’s trip</h2><div class=row>
-<div class=c><div class=pic><i class=o style="--c:#B98F5B;--s:64px"></i></div><b>Potato</b><span>1 kg</span><div class=p>₹32<button class=add data-add aria-label="Add Potato">+</button></div></div>
-<div class=c><div class=pic><i class=o style="--c:#D4452F;--s:64px"></i></div><b>Tomato</b><span>500 g</span><div class=p>₹28<button class=add data-add aria-label="Add Tomato">+</button></div></div>
-<div class=c><div class=pic><i class=o style="--c:#F0E2CC;--s:64px"></i></div><b>Farm eggs</b><span>Tray of 12</span><div class=p>₹84<button class=add data-add aria-label="Add Eggs">+</button></div></div>
-<div class=c><div class=pic><i class=o style="--c:#3E6B4A;--s:64px"></i></div><b>Tea leaves</b><span>500 g</span><div class=p>₹210<button class=add data-add aria-label="Add Tea">+</button></div></div>
-<div class=c><div class=pic><i class=o style="--c:#B9B83A;--s:64px"></i></div><b>Mustard oil</b><span>1 L</span><div class=p>₹168<button class=add data-add aria-label="Add Oil">+</button></div></div></div></section></main>
-<div class=bar><span><b class=cc>0</b> items · Tue, 4 PM</span><button>View trip</button></div>`};
-D.C={css:`body{background:#F5F0FC;color:#241238;font:400 15px Hind,system-ui,sans-serif;padding-bottom:12px}
-.top{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;padding:14px 16px}.top .lg{color:#6D20CA;width:90px}.sp{flex:1}
-.sr{order:3;flex:1 1 100%;background:#fff;border-radius:99px;padding:12px 18px;color:#7a6a92;box-shadow:inset 0 0 0 1.
+
+<!-- CART DRAWER -->
+<div class="overlay" id="overlay"></div>
+<div class="cart-drawer" id="cartDrawer">
+  <div class="drawer-header">
+    <h3>My Cart</h3>
+    <button class="close-drawer" id="closeDrawer">✕</button>
+  </div>
+  <div class="drawer-body" id="cartItemsList">
+    <!-- JS will populate this -->
+  </div>
+  <div class="drawer-footer">
+    <div class="bill-row">
+      <span>Total Bill</span>
+      <span id="drawerTotal">₹0</span>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn">Proceed to Pay</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Item added to cart</div>
+
+<!-- JS FILE LINK -->
+<script src="script.js"></script>
+</body>
+</html>

@@ -1,133 +1,81 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#5c347d">
-  <meta name="description" content="Grovia Store — planned grocery delivery for villages and nearby communities.">
-  <title>Grovia Store — Your neighbourhood, thoughtfully delivered</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#5c347d">
+<title>Grovia Store — Everyday essentials, thoughtfully delivered</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="announcement"><span class="announcement-dot"></span><span id="announcementText">Your village, your delivery day — planned with care.</span><a href="#how-it-works">How delivery works <span aria-hidden="true">→</span></a></div>
-
-  <header class="site-header">
-    <a class="brand" href="#" aria-label="Grovia Store home">
-      <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
-      <span>grovia<span class="brand-store"> store</span></span>
-    </a>
-    <button class="location-button" id="locationButton" type="button">
-      <span class="location-pin" aria-hidden="true">⌖</span>
-      <span class="location-copy"><small>Deliver to</small><strong id="locationLabel">Your village or pincode</strong></span>
-      <span aria-hidden="true">⌄</span>
-    </button>
-    <form class="header-search" id="searchForm" role="search">
-      <span class="search-symbol" aria-hidden="true"></span>
-      <input id="searchInput" type="search" placeholder="Search vegetables, rice, essentials..." aria-label="Search products">
-      <button type="submit">Search</button>
-    </form>
-    <nav class="header-actions" aria-label="Main actions">
-      <button class="icon-button" id="accountButton" type="button" aria-label="Account"><span aria-hidden="true">♙</span><small>Account</small></button>
-      <button class="cart-button" id="cartButton" type="button"><span aria-hidden="true">▢</span> Cart <b id="cartCount">0</b></button>
-      <button class="menu-button" id="menuButton" type="button" aria-label="Open menu">☰</button>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero section-wrap">
-      <div class="hero-copy reveal">
-        <div class="eyebrow"><span class="eyebrow-line"></span> GROCERIES, CLOSER TO HOME</div>
-        <h1>Everyday essentials.<br><span>Thoughtfully delivered.</span></h1>
-        <p>Fresh produce and daily needs, delivered to your village on a schedule that works for your community.</p>
-        <div class="hero-actions">
-          <a class="button button-primary" href="#products">Explore groceries <span aria-hidden="true">→</span></a>
-          <a class="text-link" href="#how-it-works">See how it works <span aria-hidden="true">↗</span></a>
-        </div>
-        <div class="hero-proof"><span class="proof-icon">✓</span><span>Clear delivery days</span><i></i><span>Transparent charges</span></div>
-      </div>
-      <div class="hero-art reveal" aria-label="Illustration of a planned grocery delivery route">
-        <div class="art-orbit orbit-one"></div><div class="art-orbit orbit-two"></div>
-        <div class="sun-disc"></div>
-        <div class="hill hill-back"></div><div class="hill hill-front"></div>
-        <svg class="route-svg" viewBox="0 0 600 370" role="img" aria-label="A route connecting a grocery hub to nearby village homes">
-          <path class="route-base" d="M80 278 C135 238 153 300 220 248 S320 194 358 230 S445 280 514 176"/>
-          <path class="route-flow" d="M80 278 C135 238 153 300 220 248 S320 194 358 230 S445 280 514 176"/>
-        </svg>
-        <div class="village-home home-one"><span class="roof"></span><span class="house-body"><i></i></span></div>
-        <div class="village-home home-two"><span class="roof"></span><span class="house-body"><i></i></span></div>
-        <div class="village-home home-three"><span class="roof"></span><span class="house-body"><i></i></span></div>
-        <div class="hub-card"><span class="hub-symbol">G</span><span><b>Grovia hub</b><small>Orders organised by route</small></span></div>
-        <div class="route-pin pin-one"><span>1</span></div><div class="route-pin pin-two"><span>2</span></div><div class="route-pin pin-three"><span>3</span></div>
-        <div class="delivery-van"><span class="van-box">G</span><span class="van-body"></span><span class="van-wheel wheel-a"></span><span class="van-wheel wheel-b"></span></div>
-        <div class="art-caption"><span class="caption-dot"></span><span>One planned route, nearby homes</span></div>
-      </div>
-      <div class="hero-bottom-note"><span>01</span><span class="note-rule"></span><span>LOCAL NEEDS. PLANNED ROUTES. RELIABLE DELIVERY.</span></div>
+<div class="splash-screen" id="splashScreen" aria-label="Grovia Store is loading" role="status">
+  <div class="splash-snow snow-one">❄</div><div class="splash-snow snow-two">✧</div><div class="splash-snow snow-three">❄</div><div class="splash-snow snow-four">✦</div><div class="splash-snow snow-five">❄</div><div class="splash-snow snow-six">✧</div><div class="splash-snow snow-seven">❄</div><div class="splash-snow snow-eight">✦</div>
+  <div class="splash-moon"></div><div class="splash-mountain mountain-back"></div><div class="splash-mountain mountain-front"></div>
+  <div class="splash-content"><img class="splash-logo" src="assets/grovia-logo.png" alt="Grovia Store"><div class="splash-tagline">Winter essentials.<br><span>A little closer to home.</span></div><div class="splash-loading"><span></span></div><div class="splash-caption">FRESH STARTS · WARM HOMES</div></div>
+</div>
+<div id="app">
+<header class="topbar" id="mainHeader">
+  <div class="wrap header">
+    <a class="brand" href="#" onclick="showHome();return false" aria-label="Grovia Store home"><img class="brand-logo" src="assets/grovia-logo.png" alt="Grovia Store"></a>
+    <button class="delivery-select" onclick="openAddress()" aria-label="Choose delivery address"><span>DELIVER TO ▾</span><strong id="headerAddress">Choose your address</strong></button>
+    <div class="searchbar desktop-search"><span aria-hidden="true">⌕</span><input id="searchDesktop" type="search" placeholder="Search milk, atta, aloo…" autocomplete="off" oninput="handleSearch(this.value)" onkeydown="if(event.key==='Enter')focusResults()"><button class="linkbtn" onclick="clearSearch()" aria-label="Clear search">×</button></div>
+    <div class="header-actions">
+      <button class="iconbtn" onclick="openFavourites()" aria-label="Favourites" title="Favourites">♡</button>
+      <button class="iconbtn" onclick="openCart()" aria-label="Cart" title="Cart">▣<span class="count" id="cartCount">0</span></button>
+      <button class="iconbtn more-button" onclick="toggleOpsMenu()" aria-label="More options" aria-expanded="false" title="More">⋮</button>
+      <span id="accountLabel" class="hidden">Sign in</span>
+    </div>
+    <div id="opsMenu" class="ops-menu hidden" role="menu">
+      <div class="ops-menu-title">Your Grovia</div>
+      <div class="theme-menu-block"><div class="theme-menu-label">Appearance</div><div class="theme-segment" role="group" aria-label="Theme mode"><button type="button" data-theme-choice="light" onclick="setThemeModeV7('light')">☼ Light</button><button type="button" data-theme-choice="dark" onclick="setThemeModeV7('dark')">☾ Dark</button><button type="button" data-theme-choice="system" onclick="setThemeModeV7('system')">▣ System</button></div></div>
+      <button role="menuitem" onclick="closeOpsMenu();user?openProfile():openAuth('login')">♙ <span id="menuAccountLabel">Sign in / Account</span></button>
+      <button role="menuitem" onclick="closeOpsMenu();openReferral()">✧ Refer a neighbour</button>
+      <button role="menuitem" onclick="closeOpsMenu();openJobs()">▤ Jobs & partner applications</button>
+      <div class="ops-menu-divider"></div>
+      <button role="menuitem" onclick="closeOpsMenu();openPartnerLogin()">↗ Delivery partner login</button>
+      <button role="menuitem" onclick="closeOpsMenu();openStaffLogin()">⚙ Admin / hub access</button>
+    </div>
+  </div>
+  <div class="wrap mobile-search"><div class="searchbar"><span aria-hidden="true">⌕</span><input id="searchMobile" type="search" placeholder="Search milk, atta, aloo…" autocomplete="off" oninput="handleSearch(this.value)" onkeydown="if(event.key==='Enter')focusResults()"><button class="linkbtn" onclick="clearSearch()" aria-label="Clear search">×</button></div></div>
+</header>
+<main id="storefront">
+  <div id="searchDiscovery">
+    <section class="wrap quick-category-shell" aria-label="Browse categories">
+      <div id="quickCategories" class="quick-categories"></div>
     </section>
-
-    <section class="availability-section section-wrap" id="availability">
-      <div class="availability-intro reveal"><div class="eyebrow">DELIVERY AVAILABILITY</div><h2>Is Grovia coming<br>to your area?</h2><p>Check your pincode to see whether your village is in our delivery network.</p></div>
-      <div class="pincode-card reveal">
-        <form id="pincodeForm" novalidate>
-          <label for="pincodeInput">Enter your 6-digit pincode</label>
-          <div class="pincode-control"><span class="pin-outline" aria-hidden="true">⌖</span><input id="pincodeInput" inputmode="numeric" autocomplete="postal-code" maxlength="6" placeholder="e.g. 283001" aria-describedby="pincodeHint"><button class="button button-primary" type="submit">Check availability <span aria-hidden="true">→</span></button></div>
-          <div class="form-hint" id="pincodeHint">Your pincode helps us check local delivery coverage.</div>
-          <div class="availability-result" id="availabilityResult" role="status" aria-live="polite" hidden></div>
-        </form>
-        <div class="service-note"><span class="service-note-icon">i</span><span>Delivery days and charges depend on your service area. We show confirmed schedules, not guessed promises.</span></div>
+    <section class="wrap festival-shell" id="festivalShell">
+      <div id="festivalBanner" class="festival-banner festive-winter">
+        <div class="festival-copy"><div class="eyebrow" id="campaignKicker">THE GROVIA WINTER EDIT</div><span id="seasonBadge" class="season-badge">WINTER EDIT</span><h2 id="campaignHeadline">Little joys. Big celebrations.</h2><p id="campaignSubline">Stock up on everyday favourites and make every celebration feel closer to home.</p><div class="festival-actions"><button id="festivalCta" class="btn festival-cta" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth',block:'start'})">Shop festive picks →</button><span class="campaign-note" id="campaignNote">Offers apply on eligible products</span></div></div>
+        <div class="festival-art" aria-hidden="true"><span class="festive-orb orb-a">✦</span><span class="festive-orb orb-b">✧</span><span class="festive-item item-a" id="festiveItemA">🪔</span><span class="festive-item item-b" id="festiveItemB">✨</span><span class="festive-item item-c" id="festiveItemC">✦</span><span class="festive-ring"></span></div>
+        <span class="festive-spark spark-a">✦</span><span class="festive-spark spark-b">✧</span><span class="festive-spark spark-c">✦</span>
       </div>
     </section>
-
-    <section class="categories-section section-wrap" id="categories">
-      <div class="section-heading reveal"><div><div class="eyebrow">SHOP THE EVERYDAY</div><h2>What do you need today?</h2></div><a class="text-link" href="#products">Browse all products <span aria-hidden="true">→</span></a></div>
-      <div class="category-grid">
-        <button class="category-card category-green reveal" data-category="Vegetables"><span class="category-index">01 / FRESH</span><span class="category-art veg-art" aria-hidden="true">🥬</span><span class="category-name">Vegetables</span><span class="category-sub">Fresh from the season <b>↗</b></span></button>
-        <button class="category-card category-peach reveal" data-category="Fruits"><span class="category-index">02 / FRESH</span><span class="category-art fruit-art" aria-hidden="true">🍊</span><span class="category-name">Fruits</span><span class="category-sub">A little natural goodness <b>↗</b></span></button>
-        <button class="category-card category-lilac reveal" data-category="Dairy"><span class="category-index">03 / DAILY</span><span class="category-art dairy-art" aria-hidden="true">🥛</span><span class="category-name">Dairy & eggs</span><span class="category-sub">Everyday essentials <b>↗</b></span></button>
-        <button class="category-card category-sand reveal" data-category="Staples"><span class="category-index">04 / PANTRY</span><span class="category-art staple-art" aria-hidden="true">🌾</span><span class="category-name">Rice & staples</span><span class="category-sub">Stock up with ease <b>↗</b></span></button>
-      </div>
-    </section>
-
-    <section class="products-section section-wrap" id="products">
-      <div class="section-heading reveal"><div><div class="eyebrow">THE DAILY PICK</div><h2>Good things for your home</h2><p class="section-subtitle">A small sample catalogue to preview the shopping experience.</p></div><div class="product-filters" id="productFilters"><button class="filter-chip active" data-filter="All">All items</button><button class="filter-chip" data-filter="Vegetables">Vegetables</button><button class="filter-chip" data-filter="Fruits">Fruits</button><button class="filter-chip" data-filter="Dairy">Dairy</button><button class="filter-chip" data-filter="Staples">Staples</button></div></div>
-      <div class="product-grid" id="productGrid"></div>
-      <div class="catalog-note"><span class="catalog-note-mark">i</span> Sample products and prices are for layout demonstration. Replace them with your verified catalogue and actual prices before launch.</div>
-    </section>
-
-    <section class="delivery-story" id="how-it-works">
-      <div class="section-wrap">
-        <div class="story-heading reveal"><div class="eyebrow eyebrow-light">A BETTER WAY TO DELIVER</div><h2>Good planning brings<br><span>groceries closer.</span></h2><p>Grovia organises orders by service area, so customers know their delivery day and our team can plan practical routes.</p></div>
-        <div class="journey-line" aria-hidden="true"><span></span></div>
-        <div class="journey-grid">
-          <article class="journey-step reveal"><span class="step-number">01</span><div class="step-icon"><span class="step-home"></span></div><h3>Check your area</h3><p>Enter your pincode and confirm that your village is serviceable.</p></article>
-          <article class="journey-step reveal"><span class="step-number">02</span><div class="step-icon"><span class="step-basket"></span></div><h3>Choose your groceries</h3><p>Add everyday essentials to your cart and review your total.</p></article>
-          <article class="journey-step reveal"><span class="step-number">03</span><div class="step-icon"><span class="step-calendar"></span></div><h3>Select a delivery day</h3><p>Choose from the schedule configured for your service zone.</p></article>
-          <article class="journey-step reveal"><span class="step-number">04</span><div class="step-icon"><span class="step-delivery"></span></div><h3>Receive at your door</h3><p>Your assigned delivery partner brings the order to your address.</p></article>
-        </div>
-        <div class="story-footnote"><span class="story-footnote-line"></span><p>Same-day delivery is offered only when stock, cut-off time and route capacity allow it. Nearby orders can share a planned route, without missing promised delivery windows.</p></div>
-      </div>
-    </section>
-
-    <section class="portal-section section-wrap">
-      <div class="section-heading reveal"><div><div class="eyebrow">ONE CONNECTED BUSINESS</div><h2>Every role, in the right place.</h2><p class="section-subtitle">Separate workspaces for customers, store operations and delivery partners.</p></div></div>
-      <div class="portal-grid">
-        <article class="portal-card reveal"><div class="portal-icon customer-icon">01</div><div><h3>Customer account</h3><p>Orders, addresses, favourites and delivery updates.</p><button class="portal-link" data-portal="customer">Customer sign in <span>→</span></button></div></article>
-        <article class="portal-card reveal"><div class="portal-icon admin-icon">02</div><div><h3>Admin workspace</h3><p>Manage products, inventory, orders, service zones and staff.</p><button class="portal-link" data-portal="admin">Admin access <span>→</span></button></div></article>
-        <article class="portal-card reveal"><div class="portal-icon partner-icon">03</div><div><h3>Delivery partner</h3><p>Assigned orders, route details and delivery status.</p><button class="portal-link" data-portal="partner">Partner access <span>→</span></button></div></article>
-      </div>
-      <p class="security-note"><span aria-hidden="true">⌑</span> Portal buttons in this starter are demonstrations only. Production access must be protected by server-side authentication and role permissions.</p>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="footer-main section-wrap"><a class="brand brand-footer" href="#"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span>grovia<span class="brand-store"> store</span></span></a><p>Everyday essentials, thoughtfully delivered to your community.</p><div class="footer-links"><a href="#categories">Shop</a><a href="#how-it-works">How it works</a><a href="#availability">Delivery areas</a><a href="#portals">Support</a></div></div>
-    <div class="footer-bottom section-wrap"><span>© <span id="year"></span> Grovia Store</span><span>Built around local needs and planned delivery.</span></div>
-  </footer>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <dialog class="modal" id="simpleModal"><form method="dialog"><button class="modal-close" aria-label="Close">×</button><div class="eyebrow">GROVIA STORE</div><h2 id="modalTitle">Account access</h2><p id="modalText">This demonstration shows where the account flow will open.</p><div class="modal-actions"><button class="button button-primary" value="close">Got it</button></div></form></dialog>
-  <script src="script.js"></script>
-</body>
-</html>
+  </div>
+  <section class="wrap section shop-section" id="shop">
+    <div class="section-head"><div><div class="eyebrow" id="shopEyebrow">FIND YOUR EVERYDAY ESSENTIALS</div><h2 id="shopTitle">Shop by aisle</h2><p id="shopSub">Useful things for your home, chosen for everyday life.</p></div><button class="btn soft cart-summary" onclick="openCart()">Cart · <span id="cartCount2">0</span></button></div>
+    <div id="categoryArea"><div class="category-section-title"><div><span class="eyebrow">THE DAILY AISLES</span><h3>Shop by aisle</h3></div><button class="linkbtn" onclick="selectCategory('All')">View all →</button></div><div class="category-grid" id="categories"></div></div>
+    <div id="productSectionHeading" class="product-section-title"><div><span class="eyebrow">GROVIA PICKS</span><h3>Popular near you</h3></div><span class="muted small">Sample catalogue · add what you need</span></div>
+    <div class="search-results-bar hidden" id="resultsBar"><strong id="resultsText">Products</strong><button class="linkbtn" onclick="clearSearch()">Clear search ×</button></div>
+    <div class="product-grid" id="products"></div><div id="noResults" class="empty hidden"><div style="font-size:2rem">⌕</div><h3>No matching product found</h3><p class="muted">Try a common name, Hindi name, or another spelling.</p><button class="btn soft" onclick="clearSearch()">Browse all products</button></div>
+  </section>
+  <section class="wrap section campaign-offer-section" id="offersSection"><div class="promo offer-promo"><div><div class="eyebrow">Grovia offers</div><h2>Good essentials. Thoughtful savings.</h2><p>Use eligible coupon codes at checkout. Minimum cart values and discount caps apply.</p><div class="offer-codes"><span>GROVIA10</span><span>WELCOME20</span><span>FRESH5</span></div></div><button class="btn offer-cta" onclick="openCart()">Apply a coupon →</button><span class="offer-shimmer" aria-hidden="true"></span></div></section>
+  <section class="wrap referral-section" id="referralSection"><div class="referral-banner"><div class="referral-glow" aria-hidden="true"></div><div class="referral-copy"><div class="eyebrow">A little good goes around</div><h2>Invite your neighbours.<br><span>Share the savings.</span></h2><p>Share your Grovia referral code with nearby homes. Referral rewards can be activated once the real referral service is connected.</p><div class="referral-code-row"><span class="referral-code" id="referralCodeDisplay">GRV-LOCAL</span><button class="btn referral-cta" onclick="copyReferralCode()">Copy code ↗</button></div></div><div class="referral-visual" aria-hidden="true"><span class="referral-person person-one">♙</span><span class="referral-person person-two">♙</span><span class="referral-gift">✧</span><span class="referral-coins">G G G</span><span class="referral-path"></span></div><span class="referral-star star-one">✦</span><span class="referral-star star-two">✧</span></div></section>
+  <section class="wrap story-section" id="brandStory">
+    <div class="story-copy"><div class="eyebrow">Groceries, closer to home</div><h2>Everyday essentials.<br><span>Thoughtfully delivered.</span></h2><p>Fresh produce and daily needs, delivered to your village on a schedule that works for your community.</p><div class="proof"><span>✓ Clear delivery days</span><span>Transparent charges</span><span>Local routes</span></div></div>
+    <div class="route-art" id="routeAnimation" aria-label="Animated illustration of planned deliveries to nearby homes">
+      <div class="hub-card"><span class="brandmark">G</span><span><b>Grovia hub</b><small>Orders organised by route</small></span></div><div class="hills"></div><div class="hill2"></div><div class="home"></div><div class="home h2"></div><div class="home h3"></div><svg class="route-line" viewBox="0 0 500 120" preserveAspectRatio="none"><path d="M8 85 C70 25 100 110 170 78 S260 10 320 58 S405 110 492 15"/></svg><div class="van"><span class="wheel"></span><span class="wheel w2"></span></div><div class="route-label"><span class="route-status-dot"></span> One planned route, nearby homes</div>
+    </div>
+    <p class="story-footnote">Local delivery days, fees and route capacity will only be displayed after the service-zone settings are configured by the owner.</p>
+  </section>
+</main>
+<footer class="footer" id="siteFooter"><div class="wrap footer-grid">
+  <div><a class="brand" href="#" onclick="showHome();return false" style="color:white"><img class="brand-logo footer-logo" src="assets/grovia-logo.png" alt="Grovia Store"></a><p>Everyday essentials, thoughtfully delivered. Local routes, clear schedules, and honest charges.</p><p class="small">Support: <a href="mailto:support@grovia.example" style="display:inline;color:white">support@grovia.example</a><br>Replace this demo email before launch.</p></div>
+  <div><h3>Customer care</h3><a href="#" onclick="openOrders();return false">My orders</a><a href="#" onclick="openAddress();return false">My addresses</a><a href="#" onclick="openSupport();return false">Help & contact</a><a href="#" onclick="openFavourites();return false">Favourites</a></div>
+  <div><h3>Policies</h3><a href="#" onclick="openPolicy('Terms & Conditions');return false">Terms & Conditions</a><a href="#" onclick="openPolicy('Privacy Policy');return false">Privacy policy</a><a href="#" onclick="openPolicy('Delivery Policy');return false">Delivery policy</a><a href="#" onclick="openPolicy('Cancellation & Refund Policy');return false">Cancellation & refunds</a></div>
+  <div><h3>Community</h3><a href="#" onclick="openReferral();return false">Refer a neighbour</a><a href="#" onclick="openJobs();return false">Jobs & careers</a><a href="#" onclick="toast('Add your verified Instagram URL before launch');return false">Instagram ↗</a><a href="#" onclick="toast('Add your verified Facebook URL before launch');return false">Facebook ↗</a><a href="#" onclick="toast('Add your verified WhatsApp business link before launch');return false">WhatsApp ↗</a></div>
+</div><div class="wrap small" style="border-top:1px solid #ffffff20;padding-top:18px;margin-top:28px;color:#bfaec9">© <span id="year"></span> Grovia Store. Demo interface — policies and contact details must be reviewed before launch.</div></footer>
+<nav class="bottom-nav" id="bottomNav"><button class="nav-item active" onclick="showHome()"><span class="nav-icon">⌂</span>Home</button><button class="nav-item" onclick="openCart()"><span class="nav-icon">▣</span>Cart <span id="navCartCount"></span></button><button class="nav-item" onclick="openOrders()"><span class="nav-icon">▤</span>Orders</button><button class="nav-item" onclick="openProfile()"><span class="nav-icon">♙</span>Profile</button></nav>
+</div>
+<div id="overlayRoot"></div><div id="toast" class="toast" role="status"></div>
+<script src="script.js"></script>
+</body></html>
